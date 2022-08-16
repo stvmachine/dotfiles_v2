@@ -818,6 +818,18 @@
         "options": {
           "full_name": "font-fira-code-nerd-font"
         }
+      },
+      "steam": {
+        "version": "4.0",
+        "options": {
+          "full_name": "steam"
+        }
+      },
+      "discord": {
+        "version": "0.0.268",
+        "options": {
+          "full_name": "discord"
+        }
       }
     }
   },
