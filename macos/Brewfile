@@ -1,0 +1,78 @@
+tap "homebrew/core"
+tap "homebrew/bundle"
+tap "homebrew/services"
+tap "homebrew/cask"
+tap "buo/cask-upgrade"
+tap "homebrew/cask-fonts"
+tap "homebrew/cask-versions"
+brew "mas"
+
+brew "curl"
+brew "git"
+brew "fish"
+brew "git-delta"
+brew "fzf"
+brew "gh"
+brew "grc"
+brew "kubectx"
+brew "starship"
+brew "zoxide"
+brew "fd"
+brew "exa"
+brew "bat"
+cask "kitty"
+cask "alacritty"
+
+# Text editors/IDEs
+brew "neovim"
+cask "hyper"
+cask "visual-studio-code"
+
+# Git related
+cask "smartgit"
+
+# Dev tools
+brew "rbenv"
+brew "ruby"
+brew "yarn"
+brew "nvm"
+cask "docker"
+
+# Productivity
+cask "alfred"
+cask "spectacle"
+
+# Notes
+cask "obsidian"
+
+# Common apps
+cask "calibre"
+cask "spotify"
+cask "vlc"
+
+# DB managers
+cask "dbeaver-community"
+cask "mongodb-compass"
+
+# API development
+cask "insomnia"
+# cask "postman"
+
+# Browsers
+cask "brave-browser"
+cask "firefox-developer-edition"
+
+# Messaging and videoconference
+cask "rambox"
+cask "slack"
+cask "zoom"
+
+
+# Install apps already purchased in the mac app store. Not for everyone
+# Be sure, to login into the app store in beforehand
+
+# amphetamine
+# mas install 937984704
+
+# Xcode. Will take forever to download, yes. Not needed for everyone.
+# mas install 497799835

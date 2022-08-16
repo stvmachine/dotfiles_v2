@@ -1,6 +1,6 @@
 <p align="center">
   <img alt="header image" src="https://raw.githubusercontent.com/caarlos0/dotfiles.fish/master/docs/header.svg" height="350" />
-  <h2 align="center">carlos' dotfiles</h2>
+  <h2 align="center">esteban' dotfiles</h2>
   <p align="center">Config files for Fish, Go, Editors, Terminals and more.</p>
 </p>
 
@@ -72,13 +72,12 @@ In cases a file already existed, the boostrap script should have created a `.bac
 - [`neovim`](https://neovim.io) hyperextensible Vim-based text editor;
 - [`starship.rs`](https://starship.rs) the shell we are using;
 
-To install them all with `brew`:
 
-```console
-$ brew install fish git-delta fzf gh grc kubectx starship zoxide fd exa bat alacritty kitty neovim
-```
+### On Mac:
 
-On Ubuntu:
+Follow the instructions [`here`](MAC_SETUP.md).
+
+### On Ubuntu:
 
 ```console
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
@@ -95,18 +94,3 @@ You use it by running:
 ```
 
 And logging out and in again or restart.
-
-## Themes and fonts being used
-
-Gruvbox-material dark and MonoLisa Font.
-
-## Screenshots
-
-###### neovim with LSP, git signs, etc
-![CleanShot 2022-08-12 at 23 17 57@2x](https://user-images.githubusercontent.com/245435/184464863-b5c6468f-e064-4f53-bbd8-2961f4163bd0.png)
-
-###### neovim telescope
-![CleanShot 2022-08-12 at 23 18 07@2x](https://user-images.githubusercontent.com/245435/184464868-f9f22aea-3333-42a3-b110-0c8a90d90c1b.png)
-
-###### tmux-sessionizer and tmux tabs with icons
-![CleanShot 2022-08-12 at 23 18 13@2x](https://user-images.githubusercontent.com/245435/184464869-835bdad2-5ca6-4998-b550-3622bb05c82c.png)
