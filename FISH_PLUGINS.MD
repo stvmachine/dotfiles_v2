@@ -1,0 +1,1 @@
+nvm: https://github.com/jorgebucaran/nvm.fish

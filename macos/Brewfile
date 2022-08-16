@@ -7,6 +7,11 @@ tap "homebrew/cask-fonts"
 tap "homebrew/cask-versions"
 brew "mas"
 
+# Custom fonts
+cask "font-fira-code-nerd-font"
+
+# Recommended by repo
+# Special attention to fish and starship
 brew "curl"
 brew "git"
 brew "fish"
@@ -67,9 +72,12 @@ cask "rambox"
 cask "slack"
 cask "zoom"
 
+# Passwords
+cask "keybase"
+
 
 # Install apps already purchased in the mac app store. Not for everyone
-# Be sure, to login into the app store in beforehand
+# Be sure to login into the app store in beforehand
 
 # amphetamine
 # mas install 937984704
