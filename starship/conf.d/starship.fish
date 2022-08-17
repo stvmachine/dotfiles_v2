@@ -26,6 +26,7 @@ set -g fish_color_selection 'white'  '--bold'  '--background=brblack'
 set -g fish_color_user brgreen
 set -g fish_color_valid_path --underline
 
+
 # Originally my bash_profile
 
 # ----------- NVM ------
@@ -35,6 +36,22 @@ end
 
 set -x NVM_DIR ~/.nvm
 nvm use default --silent
+
+# Trigger 'nvm use' if .nvmrc exists in the folder
+function __check_nvm --on-variable PWD --description 'Do nvm stuff'
+  if test -f .nvmrc
+    set node_version (nvm version)
+    set nvmrc_node_version (nvm version (cat .nvmrc))
+
+    if [ $nvmrc_node_version = "N/A" ]
+      nvm install
+    else if [ $nvmrc_node_version != $node_version ]
+      nvm use
+    end
+  end
+end
+
+__check_nvm
 
 # Ensure user-installed binaries take precedence
 fish_add_path /usr/local/bin:$PATH
