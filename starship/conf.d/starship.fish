@@ -27,3 +27,35 @@ set -g fish_color_user brgreen
 set -g fish_color_valid_path --underline
 
 # Originally my bash_profile
+
+# ----------- NVM ------
+function nvm
+   bass source (brew --prefix nvm)/nvm.sh --no-use ';' nvm $argv
+end
+
+set -x NVM_DIR ~/.nvm
+nvm use default --silent
+
+# Ensure user-installed binaries take precedence
+fish_add_path /usr/local/bin:$PATH
+
+# --------- Python -----
+# Pyenv
+# set -g PYENV_ROOT $HOME/.pyenv
+# fish_add_path $PYENV_ROOT/bin:$PATH
+# if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
+# if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
+
+# ----------- React Native ------
+# Android sdk tools
+# set -g ANDROID_HOME $HOME/Library/Android/sdk
+# fish_add_path $PATH:$ANDROID_HOME/tools
+# fish_add_path $PATH:$ANDROID_HOME/tools/bin
+# fish_add_path $PATH:$ANDROID_HOME/platform-tools
+
+# React Native: For not shake on RN to access debug options
+# alias rnmenu "adb shell input keyevent 82"
+
+# Fastlane
+# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# fish_add_path "$HOME/.fastlane/bin:$PATH"
