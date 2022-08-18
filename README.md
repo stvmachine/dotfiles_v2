@@ -1,4 +1,4 @@
-Forked from my [Caarlos0 dotfiles](https://github.com/caarlos0/dotfiles.fish)
+Forked from [Caarlos0 dotfiles](https://github.com/caarlos0/dotfiles.fish)
 
 ## Installation
 
