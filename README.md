@@ -1,14 +1,4 @@
-<p align="center">
-  <img alt="header image" src="https://raw.githubusercontent.com/caarlos0/dotfiles.fish/master/docs/header.svg" height="350" />
-  <h2 align="center">esteban' dotfiles</h2>
-  <p align="center">Config files for Fish, Go, Editors, Terminals and more.</p>
-</p>
-
----
-
-Forked from my [ZSH dotfiles](https://github.com/caarlos0/dotfiles), these are
-my Fish Shell config files, together with editor, macOS configs and other
-goodies.
+Forked from my [Caarlos0 dotfiles](https://github.com/caarlos0/dotfiles.fish)
 
 ## Installation
 
@@ -27,7 +17,7 @@ First, make sure you have all those things installed:
 Then, run these steps:
 
 ```console
-$ git clone https://github.com/caarlos0/dotfiles.fish.git ~/.dotfiles
+$ git clone https://github.com/stvmachine/dotfiles_v2 ~/.dotfiles
 $ cd ~/.dotfiles
 $ ./script/bootstrap.fish
 ```
@@ -71,7 +61,6 @@ In cases a file already existed, the boostrap script should have created a `.bac
 - [`kubectx`](https://github.com/ahmetb/kubectx) for better Kubernetes context and namespace switch;
 - [`neovim`](https://neovim.io) hyperextensible Vim-based text editor;
 - [`starship.rs`](https://starship.rs) the shell we are using;
-
 
 ### On Mac:
 
