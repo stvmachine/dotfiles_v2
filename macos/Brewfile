@@ -76,6 +76,7 @@ cask "zoom"
 
 # Passwords
 cask "keybase"
+cask "1password"
 
 
 # Install apps already purchased in the mac app store. Not for everyone

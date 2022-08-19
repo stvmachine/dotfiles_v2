@@ -830,6 +830,12 @@
         "options": {
           "full_name": "discord"
         }
+      },
+      "1password": {
+        "version": "8.8.0",
+        "options": {
+          "full_name": "1password"
+        }
       }
     }
   },
