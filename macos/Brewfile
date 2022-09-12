@@ -42,6 +42,7 @@ brew "ruby"
 brew "yarn"
 brew "nvm"
 cask "docker"
+brew "direnv"
 
 # Productivity
 cask "alfred"
@@ -78,6 +79,9 @@ cask "zoom"
 cask "keybase"
 cask "1password"
 
+# Android Studio
+cask "android-studio"
+
 
 # Install apps already purchased in the mac app store. Not for everyone
 # Be sure to login into the app store in beforehand
@@ -87,3 +91,4 @@ cask "1password"
 
 # Xcode. Will take forever to download, yes. Not needed for everyone.
 # mas install 497799835
+# sudo xcodebuild -license accept
