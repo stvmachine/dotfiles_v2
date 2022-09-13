@@ -38,6 +38,7 @@ cask "smartgit"
 
 # Dev tools
 brew "rbenv"
+brew "ruby-build"
 brew "ruby"
 brew "yarn"
 brew "nvm"
@@ -79,9 +80,11 @@ cask "zoom"
 cask "keybase"
 cask "1password"
 
-# Android Studio
+# React Native
 cask "android-studio"
-
+# OpenJDK Azul Zulu: works for both Intel and M1 macs
+cask "zulu11"
+brew "watchman"
 
 # Install apps already purchased in the mac app store. Not for everyone
 # Be sure to login into the app store in beforehand
