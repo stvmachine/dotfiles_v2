@@ -43,6 +43,13 @@ function __check_nvm --on-variable PWD --description 'Do nvm stuff'
     set node_version (nvm version)
     set nvmrc_node_version (nvm version (cat .nvmrc))
 
+    # Link node to usr/bin for applications that are not compatible with nvm like xcode
+    # https://gist.github.com/MeLlamoPablo/0abcc150c10911047fd9e5041b105c34
+    sudo rm -f /usr/bin/node
+    sudo rm -f /usr/bin/npm
+    sudo ln -s $(which node) /usr/bin/
+    sudo ln -s $(which npm) /usr/bin/
+
     if [ $nvmrc_node_version = "N/A" ]
       nvm install
     else if [ $nvmrc_node_version != $node_version ]
@@ -65,14 +72,20 @@ fish_add_path /usr/local/bin:$PATH
 
 # ----------- React Native ------
 # Android sdk tools
-# set -g ANDROID_HOME $HOME/Library/Android/sdk
-# fish_add_path $PATH:$ANDROID_HOME/tools
-# fish_add_path $PATH:$ANDROID_HOME/tools/bin
-# fish_add_path $PATH:$ANDROID_HOME/platform-tools
+set -g ANDROID_HOME $HOME/Library/Android/sdk
+set -g ANDROID_SDK_ROOT $HOME/Library/Android/sdk
+fish_add_path $ANDROID_HOME/tools
+fish_add_path $ANDROID_HOME/tools/bin
+fish_add_path $ANDROID_HOME/emulator
+fish_add_path $ANDROID_HOME/platform-tools
 
 # React Native: For not shake on RN to access debug options
-# alias rnmenu "adb shell input keyevent 82"
+alias rnmenu "adb shell input keyevent 82"
 
 # Fastlane
-# if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+set -x PATH $HOME/.rbenv/bin $PATH
+set --universal fish_user_paths $fish_user_paths $HOME/.rbenv/shims
+if which rbenv > /dev/null 
+  eval "$(rbenv init - | source)"
+end
 # fish_add_path "$HOME/.fastlane/bin:$PATH"
