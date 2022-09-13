@@ -43,18 +43,12 @@ function __check_nvm --on-variable PWD --description 'Do nvm stuff'
     set node_version (nvm version)
     set nvmrc_node_version (nvm version (cat .nvmrc))
 
-    # Link node to usr/bin for applications that are not compatible with nvm like xcode
-    # https://gist.github.com/MeLlamoPablo/0abcc150c10911047fd9e5041b105c34
-    sudo rm -f /usr/bin/node
-    sudo rm -f /usr/bin/npm
-    sudo ln -s $(which node) /usr/bin/
-    sudo ln -s $(which npm) /usr/bin/
-
     if [ $nvmrc_node_version = "N/A" ]
       nvm install
     else if [ $nvmrc_node_version != $node_version ]
       nvm use
     end
+    
   end
 end
 
