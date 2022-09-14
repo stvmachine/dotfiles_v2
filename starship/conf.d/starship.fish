@@ -49,6 +49,11 @@ function __check_nvm --on-variable PWD --description 'Do nvm stuff'
       nvm use
     end
     
+    # link node to usr/local/bin for apps that doesn't work well with nvm as xcode
+    sudo rm -f /usr/local/bin/node
+    sudo rm -f /usr/local/bin/npm
+    sudo ln -s "$(which node)" /usr/local/bin/node
+    sudo ln -s "$(which npm)" /usr/local/bin/npm
   end
 end
 
