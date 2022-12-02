@@ -59,6 +59,15 @@ end
 
 __check_nvm
 
+# Trigger 'rbenv install x.y.z' if .ruby-version exists in the folder
+function __check_ruby_version --on-variable PWD --description 'Do rbenv stuff'
+  if test -f .ruby-version
+    yes no | rbenv install (cat .ruby-version)
+  end
+end
+
+__check_ruby_version
+
 # Ensure user-installed binaries take precedence
 fish_add_path /usr/local/bin:$PATH
 

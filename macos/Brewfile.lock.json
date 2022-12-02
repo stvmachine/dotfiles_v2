@@ -770,6 +770,45 @@
             }
           }
         }
+      },
+      "commitizen": {
+        "version": "2.31.0",
+        "bottle": {
+          "rebuild": 0,
+          "root_url": "https://ghcr.io/v2/homebrew/core",
+          "files": {
+            "arm64_monterey": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/commitizen/blobs/sha256:67e43b4323a24c1a10caebdcf1c94b8daa781a9de502a8658573aa58e4dd58b3",
+              "sha256": "67e43b4323a24c1a10caebdcf1c94b8daa781a9de502a8658573aa58e4dd58b3"
+            },
+            "arm64_big_sur": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/commitizen/blobs/sha256:b43bae967848c80021fc26175b9a488696566a342a91ccfb030af8fd34b44c4e",
+              "sha256": "b43bae967848c80021fc26175b9a488696566a342a91ccfb030af8fd34b44c4e"
+            },
+            "monterey": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/commitizen/blobs/sha256:b3367ef2e719f4d07056851a047f14ddc0871781e94b254ad8dff30d77fb23e2",
+              "sha256": "b3367ef2e719f4d07056851a047f14ddc0871781e94b254ad8dff30d77fb23e2"
+            },
+            "big_sur": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/commitizen/blobs/sha256:7a9e3162c91fe1f1c94acd098a1f62ba1ffce4690a666bda6c84e62b74eac649",
+              "sha256": "7a9e3162c91fe1f1c94acd098a1f62ba1ffce4690a666bda6c84e62b74eac649"
+            },
+            "catalina": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/commitizen/blobs/sha256:2b60a42de863a541bd2f2d4760451753bd2544c1938c9eb5a2080d1aeb1e6640",
+              "sha256": "2b60a42de863a541bd2f2d4760451753bd2544c1938c9eb5a2080d1aeb1e6640"
+            },
+            "x86_64_linux": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/commitizen/blobs/sha256:e96e4d3626422133e98fe27a1ce4b55cb01413a806b32cecb79a5ebba6c7317a",
+              "sha256": "e96e4d3626422133e98fe27a1ce4b55cb01413a806b32cecb79a5ebba6c7317a"
+            }
+          }
+        }
       }
     },
     "cask": {
@@ -939,6 +978,18 @@
         "version": "11.0.16,11.58.15-ca",
         "options": {
           "full_name": "zulu11"
+        }
+      },
+      "react-native-debugger": {
+        "version": "0.13.0",
+        "options": {
+          "full_name": "react-native-debugger"
+        }
+      },
+      "flipper": {
+        "version": "0.158.0",
+        "options": {
+          "full_name": "flipper"
         }
       }
     }

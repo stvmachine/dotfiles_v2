@@ -44,6 +44,7 @@ brew "yarn"
 brew "nvm"
 cask "docker"
 brew "direnv"
+brew "commitizen"
 
 # Productivity
 cask "alfred"
@@ -85,6 +86,9 @@ cask "android-studio"
 # OpenJDK Azul Zulu: works for both Intel and M1 macs
 cask "zulu11"
 brew "watchman"
+
+## Debuggers
+cask "react-native-debugger"
 
 # Install apps already purchased in the mac app store. Not for everyone
 # Be sure to login into the app store in beforehand
