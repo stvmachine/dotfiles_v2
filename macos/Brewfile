@@ -31,6 +31,7 @@ cask "alacritty"
 # Text editors/IDEs
 brew "neovim"
 cask "hyper"
+cask "warp"
 cask "visual-studio-code"
 
 # Git related
@@ -54,9 +55,9 @@ cask "spectacle"
 cask "obsidian"
 
 # Common apps
-cask "calibre"
-cask "spotify"
-cask "vlc"
+# cask "calibre"
+# cask "spotify"
+# cask "vlc"
 cask "steam"
 
 # DB managers
@@ -65,7 +66,7 @@ cask "mongodb-compass"
 
 # API development
 cask "insomnia"
-# cask "postman"
+cask "postman"
 
 # Browsers
 cask "brave-browser"
@@ -73,6 +74,7 @@ cask "firefox-developer-edition"
 
 # Messaging and videoconference
 cask "rambox"
+cask "wavebox"
 cask "discord"
 cask "slack"
 cask "zoom"
@@ -89,6 +91,7 @@ brew "watchman"
 
 ## Debuggers
 cask "react-native-debugger"
+cask "flipper"
 
 # Install apps already purchased in the mac app store. Not for everyone
 # Be sure to login into the app store in beforehand
