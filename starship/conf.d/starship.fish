@@ -26,9 +26,10 @@ set -g fish_color_selection 'white'  '--bold'  '--background=brblack'
 set -g fish_color_user brgreen
 set -g fish_color_valid_path --underline
 
+# Workaround Warp terminal
+# echo "SPACESHIP_PROMPT_ASYNC=FALSE" >>! ~/.zshr 
 
 # Originally my bash_profile
-
 # ----------- NVM ------
 function nvm
    bass source (brew --prefix nvm)/nvm.sh --no-use ';' nvm $argv
@@ -48,12 +49,20 @@ function __check_nvm --on-variable PWD --description 'Do nvm stuff'
     else if [ $nvmrc_node_version != $node_version ]
       nvm use
     end
+
+    # Testing if ~/bin folder exists
+    if test -d ~/bin
+      echo "Dir ~/bin exists"
+    else 
+      mkdir ~/bin
+      fish_add_path ~/bin
+    end
     
     # link node to usr/local/bin for apps that doesn't work well with nvm as xcode
-    sudo rm -f /usr/local/bin/node
-    sudo rm -f /usr/local/bin/npm
-    sudo ln -s "$(which node)" /usr/local/bin/node
-    sudo ln -s "$(which npm)" /usr/local/bin/npm
+    rm -f ~/bin/node
+    rm -f ~/bin/npm
+    ln -s "$(which node)" ~/bin/node
+    ln -s "$(which npm)" ~/bin/npm
   end
 end
 

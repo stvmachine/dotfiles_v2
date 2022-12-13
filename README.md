@@ -17,9 +17,9 @@ First, make sure you have all those things installed:
 Then, run these steps:
 
 ```console
-$ git clone https://github.com/stvmachine/dotfiles_v2 ~/.dotfiles
-$ cd ~/.dotfiles
-$ ./script/bootstrap.fish
+git clone https://github.com/stvmachine/dotfiles_v2 ~/.dotfiles
+cd ~/.dotfiles
+./script/bootstrap.fish
 ```
 
 > All changed files will be backed up with a `.backup` suffix.
@@ -29,9 +29,9 @@ $ ./script/bootstrap.fish
 To update, you just need to `git pull` and run the bootstrap script again:
 
 ```console
-$ cd ~/.dotfiles
-$ git pull origin master
-$ ./script/bootstrap.fish
+cd ~/.dotfiles
+git pull origin master
+./script/bootstrap.fish
 ```
 
 ## Revert
@@ -40,7 +40,7 @@ Reverting is not totally automated, but it pretty much consists in removing
 the fish config and dotfiles folder, as well as moving back some config files.
 
 ```console
-$ rm -rf ~/.dotfiles $__fish_config_dir
+rm -rf ~/.dotfiles $__fish_config_dir
 ```
 
 The bootstrap script would have created a bunch of symlinks that will now be broken.
@@ -62,11 +62,11 @@ In cases a file already existed, the boostrap script should have created a `.bac
 - [`neovim`](https://neovim.io) hyperextensible Vim-based text editor;
 - [`starship.rs`](https://starship.rs) the shell we are using;
 
-### On Mac:
+### On Mac
 
 Follow the instructions [`here`](MAC_SETUP.md).
 
-### On Ubuntu:
+### On Ubuntu
 
 ```console
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"

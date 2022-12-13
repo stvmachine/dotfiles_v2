@@ -991,6 +991,12 @@
         "options": {
           "full_name": "flipper"
         }
+      },
+      "postman": {
+        "version": "9.27.0",
+        "options": {
+          "full_name": "postman"
+        }
       }
     }
   },
@@ -1000,9 +1006,9 @@
         "HOMEBREW_VERSION": "3.5.9",
         "HOMEBREW_PREFIX": "/opt/homebrew",
         "Homebrew/homebrew-core": "3298ab3f9b8c35d12a6e8f4127aee7b5b0588d04",
-        "CLT": "13.4.0.0.1.1651278267",
-        "Xcode": "13.4.1",
-        "macOS": "12.3"
+        "CLT": "14.0.0.0.1.1661618636",
+        "Xcode": "14.0.1",
+        "macOS": "12.6"
       }
     }
   }
