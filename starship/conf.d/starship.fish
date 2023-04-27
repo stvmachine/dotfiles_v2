@@ -26,11 +26,8 @@ set -g fish_color_selection 'white'  '--bold'  '--background=brblack'
 set -g fish_color_user brgreen
 set -g fish_color_valid_path --underline
 
-# Workaround Warp terminal
-# echo "SPACESHIP_PROMPT_ASYNC=FALSE" >>! ~/.zshr 
+# ------------------------ NVM ----------------------------------------
 
-# Originally my bash_profile
-# ----------- NVM ------
 function nvm
    bass source (brew --prefix nvm)/nvm.sh --no-use ';' nvm $argv
 end
@@ -68,26 +65,20 @@ end
 
 __check_nvm
 
-# Trigger 'rbenv install x.y.z' if .ruby-version exists in the folder
-function __check_ruby_version --on-variable PWD --description 'Do rbenv stuff'
-  if test -f .ruby-version
-    yes no | rbenv install (cat .ruby-version)
-  end
-end
-
-__check_ruby_version
 
 # Ensure user-installed binaries take precedence
 fish_add_path /usr/local/bin:$PATH
 
-# --------- Python -----
+# ------------------------ PYTHON ----------------------------------------
 # Pyenv
-# set -g PYENV_ROOT $HOME/.pyenv
-# fish_add_path $PYENV_ROOT/bin:$PATH
-# if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv init -)"; fi
-# if command -v pyenv 1>/dev/null 2>&1; then eval "$(pyenv virtualenv-init -)"; fi
+set -g PYENV_ROOT $HOME/.pyenv
+fish_add_path $PYENV_ROOT/bin:$PATH
+alias brew="env PATH=(string replace (pyenv root)/shims '' \"\$PATH\") brew"
 
-# ----------- React Native ------
+# If everything fails, run this in the command line to make it works 'python' and 'pip' commands
+eval "$(pyenv init --path)"
+
+# ------------------------ REACT NATIVE ----------------------------------------
 # Android sdk tools
 set -g ANDROID_HOME $HOME/Library/Android/sdk
 set -g ANDROID_SDK_ROOT $HOME/Library/Android/sdk
@@ -99,10 +90,26 @@ fish_add_path $ANDROID_HOME/platform-tools
 # React Native: For not shake on RN to access debug options
 alias rnmenu "adb shell input keyevent 82"
 
-# Fastlane
-set -x PATH $HOME/.rbenv/bin $PATH
-set --universal fish_user_paths $fish_user_paths $HOME/.rbenv/shims
-if which rbenv > /dev/null 
-  eval "$(rbenv init - | source)"
+# ------------------------- RUBY ---------------------------------------
+# Trigger 'rbenv install x.y.z' if .ruby-version exists in the folder
+function __check_ruby_version --on-variable PWD --description 'Do rbenv stuff'
+  if test -f .ruby-version
+    yes no | rbenv install (cat .ruby-version)
+  end
 end
+
+# Ruby
+set PATH $HOME/.rbenv/bin $PATH
+set PATH $HOME/.rbenv/shims $PATH
+
+# Init rbven with fish. Source: https://github.com/rbenv/rbenv#basic-git-checkout
+status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
+
+# If that above doesn't start rbenv, try this command instead
+# rbenv rehash >/dev/null ^&1
+
+# Install ruby version if it's necessary
+__check_ruby_version
+
+# Fastlane 
 # fish_add_path "$HOME/.fastlane/bin:$PATH"
