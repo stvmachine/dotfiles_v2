@@ -113,3 +113,6 @@ __check_ruby_version
 
 # Fastlane 
 # fish_add_path "$HOME/.fastlane/bin:$PATH"
+
+# Rover: Apollo Graphql Tool
+set PATH $HOME/.rover/bin $PATH
