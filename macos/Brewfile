@@ -23,71 +23,74 @@ brew "kubectx"
 brew "starship"
 brew "zoxide"
 brew "fd"
-brew "exa"
+brew "eza"
 brew "bat"
-cask "kitty"
-cask "alacritty"
 
 # Text editors/IDEs
-# brew "neovim"
-cask "hyper"
-# cask "warp"
+cask "warp"
 cask "visual-studio-code"
 
 # Git related
 cask "smartgit"
 
 # Dev tools
-brew "rbenv"
-brew "ruby-build"
-brew "ruby"
-brew "pyenv"
+## Ruby
+# brew "rbenv"
+# brew "ruby-build"
+# brew "ruby"
+## Python
+# brew "pyenv"
+# brew "pipenv"
+## Go
+# brew "go"
+# brew "hugo"
+## Node
 brew "yarn"
 brew "nvm"
+## Others
 cask "docker"
 brew "direnv"
 brew "commitizen"
+
 
 # Productivity
 cask "alfred"
 cask "spectacle"
 
 # Notes
-cask "obsidian"
+# cask "obsidian"
 
 # Common apps
 # cask "calibre"
 # cask "vlc"
-cask "steam"
+# cask "steam"
 
 # DB managers
-cask "dbeaver-community"
-cask "mongodb-compass"
+# cask "dbeaver-community"
+# cask "mongodb-compass"
 
 # API development
-cask "insomnia"
-cask "postman"
+# cask "insomnia"
+# cask "postman"
 
 # Browsers
-cask "brave-browser"
-cask "firefox-developer-edition"
+# cask "brave-browser"
+# cask "firefox@developer-edition"
 
 # Messaging and videoconference
-cask "rambox"
-# cask "wavebox"
-cask "discord"
-cask "slack"
-cask "zoom"
+# cask "rambox"
+# cask "discord"
+# cask "slack"
+# cask "zoom"
 
 # Passwords
-cask "keybase"
-cask "1password"
+# cask "1password"
 
 # React Native
-cask "android-studio"
+# cask "android-studio"
 # OpenJDK Azul Zulu: works for both Intel and M1 macs
-cask "zulu11"
-brew "watchman"
+# cask "zulu11"
+# brew "watchman"
 
 ## Debuggers
 # cask "react-native-debugger"

@@ -1,8 +1,11 @@
 # Mac OS X setup
+
 Facing the setup of a new machine (or the need to reinstall after a fresh OS install or the like), here's a very brief and basic list of the usual suspects, related to the setup of a mac computer to work with (mostly related to a scripting languages context).
 
 ## Homebrew & Cask
+
 The package manager is the default first thing I always install. Simply following the default steps. Homebrew downloads and installs the Command Line Tools for Xcode, so we're all good. Homebrew Cask is implemented as part of Homebrew now, so we're cask-enabled and ready from the start for our tapping. Finally, `brew-cask-upgrade` provides upgrade-like capabilities to cask, and we're all set.
+
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew tap buo/cask-upgrade
@@ -11,6 +14,7 @@ brew tap buo/cask-upgrade
 If you need to combine or update your own Brewfile, you can check the [following instructions](https://gist.github.com/stvmachine/55e78bba6fa123f56e62b8ad14c3aaf0).
 
 ## Mac App Store
+
 If some previously purchased software from the Mac App Store needs to be included, we can use `mas` to ease the installs.
 
 ```bash
@@ -18,6 +22,7 @@ brew install mas
 ```
 
 ## My curated list of apps (and all that jazz)
+
 Once we have `homebrew`, `cask` (and `mas` if needed) we're ready to go (and yes, these lists might be scripted for some automation to install all, take this as just a curated set):
 
 ```
@@ -51,6 +56,7 @@ cask "alacritty"
 ```
 
 General apps
+
 ```
 # Text editors/IDEs
 brew "neovim"
@@ -93,7 +99,6 @@ cask "slack"
 cask "zoom"
 ```
 
-
 Already purchased apps from app store. It's necessary to sign in through the app store in beforehand. In some newer versions of Mac, "mas" is not able to do it automatically.
 
 ```
@@ -108,4 +113,5 @@ Already purchased apps from app store. It's necessary to sign in through the app
 ```
 
 ## Acknowledge
-Thanks to alexramirez: https://github.com/alexramirez/mac-setup
+
+Thanks to alexramirez: <https://github.com/alexramirez/mac-setup>
