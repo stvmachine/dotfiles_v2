@@ -22,6 +22,15 @@ cd ~/.dotfiles
 ./script/bootstrap.fish
 ```
 
+### Mac brew install
+
+Run brew bundle from macos folder
+
+```console
+cd macos
+brew bundle
+```
+
 > All changed files will be backed up with a `.backup` suffix.
 
 #### Update
