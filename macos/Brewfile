@@ -75,7 +75,6 @@ cask "spectacle"
 # cask "firefox@developer-edition"
 
 # Messaging and videoconference
-# cask "rambox"
 # cask "discord"
 # cask "slack"
 # cask "zoom"
