@@ -1,5 +1,5 @@
 #!/bin/fish
-# Translates program names to icons, so we an use them in our tmux config.
+# Translates program names to icons, so we can use them in our terminal config.
 # Based on https://github.com/caarlos0/icons
 switch $argv[1]
 	case ack fd find fzf grep rg
@@ -44,8 +44,6 @@ switch $argv[1]
 		echo פֿ
 	case node npm yarn
 		echo 
-	case nvim vim vi
-		echo 
 	case python pip
 		echo 
 	case rm
@@ -64,8 +62,6 @@ switch $argv[1]
 		echo 
 	case tail
 		echo 
-	case tmux
-		echo ﬿
 	case youtube-dl
 		echo 
 end

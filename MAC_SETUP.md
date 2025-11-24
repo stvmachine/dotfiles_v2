@@ -51,15 +51,12 @@ brew "zoxide"
 brew "fd"
 brew "exa"
 brew "bat"
-cask "kitty"
-cask "alacritty"
 ```
 
 General apps
 
 ```
 # Text editors/IDEs
-brew "neovim"
 cask "hyper"
 cask "visual-studio-code"
 

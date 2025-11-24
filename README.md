@@ -58,7 +58,6 @@ In cases a file already existed, the boostrap script should have created a `.bac
 
 ## Recommended Software
 
-- [`alacritty`](https://github.com/alacritty/alacritty) a cross-platform, OpenGL terminal emulator;
 - [`bat`](https://github.com/sharkdp/bat) a cat(1) clone with wings;
 - [`delta`](https://github.com/dandavison/delta) for better git diffs;
 - [`fd`](https://github.com/sharkdp/fd) a simple, fast and user-friendly alternative to `find`;
@@ -66,9 +65,7 @@ In cases a file already existed, the boostrap script should have created a `.bac
 - [`gum`](https://github.com/charmbracelet/gum) A tool for glamorous shell scripts;
 - [`gh`](https://github.com/cli/cli) for more GitHub integration with the terminal;
 - [`grc`](https://github.com/garabik/grc) to colorize command's outputs;
-- [`kitty`](https://github.com/kovidgoyal/kitty) a cross-platform, fast, feature-rich, GPU based terminal;
 - [`kubectx`](https://github.com/ahmetb/kubectx) for better Kubernetes context and namespace switch;
-- [`neovim`](https://neovim.io) hyperextensible Vim-based text editor;
 - [`starship.rs`](https://starship.rs) the shell we are using;
 
 ### On Mac
@@ -79,7 +76,7 @@ Follow the instructions [`here`](MAC_SETUP.md).
 
 ```console
 sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-sudo apt install fish grc fzf zoxide fd-find exa bat alacritty kitty neovim
+sudo apt install fish grc fzf zoxide fd-find exa bat
 # TODO: install delta, kubectx
 ```
 
