@@ -1,4 +1,3 @@
-#!/usr/bin/env fish
 if command -q starship
     starship init fish | source
 end
@@ -66,56 +65,57 @@ end
 __check_nvm
 
 
-# Ensure user-installed binaries take precedence
-fish_add_path /usr/local/bin:$PATH
+fish_add_path /opt/homebrew/bin $PATH
+fish_add_path --prepend /usr/local/bin
+fish_add_path $HOME/.local/bin
 
 # ------------------------ PYTHON ----------------------------------------
 # Pyenv
-set -g PYENV_ROOT $HOME/.pyenv
-fish_add_path $PYENV_ROOT/bin:$PATH
-alias brew="env PATH=(string replace (pyenv root)/shims '' \"\$PATH\") brew"
+# set -g PYENV_ROOT $HOME/.pyenv
+# fish_add_path $PYENV_ROOT/bin:$PATH
+# alias brew="env PATH=(string replace (pyenv root)/shims '' \"\$PATH\") brew"
 
 # Assigning python3 as python through an alias
-alias python="/usr/bin/python3"
+# alias python="/usr/bin/python3"
 
 # If everything fails, run this in the command line to make it works 'python' and 'pip' commands
-eval "$(pyenv init --path)"
+# eval "$(pyenv init --path)"
 
 # set if your term supports `pipenv shell --fancy`
-set pipenv_fish_fancy yes
+# set pipenv_fish_fancy yes
 
 # ------------------------ REACT NATIVE ----------------------------------------
 # Android sdk tools
-# set -g ANDROID_HOME $HOME/Library/Android/sdk
-# set -g ANDROID_SDK_ROOT $HOME/Library/Android/sdk
-# fish_add_path $ANDROID_HOME/tools
-# fish_add_path $ANDROID_HOME/tools/bin
-# fish_add_path $ANDROID_HOME/emulator
-# fish_add_path $ANDROID_HOME/platform-tools
+set -g ANDROID_HOME $HOME/Library/Android/sdk
+set -g ANDROID_SDK_ROOT $HOME/Library/Android/sdk
+fish_add_path $ANDROID_HOME/tools
+fish_add_path $ANDROID_HOME/tools/bin
+fish_add_path $ANDROID_HOME/emulator
+fish_add_path $ANDROID_HOME/platform-tools
 
 # React Native: For not shake on RN to access debug options
-# alias rnmenu "adb shell input keyevent 82"
+alias rnmenu "adb shell input keyevent 82"
 
 # ------------------------- RUBY ---------------------------------------
 # Trigger 'rbenv install x.y.z' if .ruby-version exists in the folder
-# function __check_ruby_version --on-variable PWD --description 'Do rbenv stuff'
-#   if test -f .ruby-version
-#     yes no | rbenv install (cat .ruby-version)
-#   end
-# end
+function __check_ruby_version --on-variable PWD --description 'Do rbenv stuff'
+  if test -f .ruby-version
+    yes no | rbenv install (cat .ruby-version)
+  end
+end
 
 # Ruby
-# set PATH $HOME/.rbenv/bin $PATH
-# set PATH $HOME/.rbenv/shims $PATH
+set PATH $HOME/.rbenv/bin $PATH
+set PATH $HOME/.rbenv/shims $PATH
 
 # Init rbven with fish. Source: https://github.com/rbenv/rbenv#basic-git-checkout
-# status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
+status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
 
 # If that above doesn't start rbenv, try this command instead
-# rbenv rehash >/dev/null ^&1
+rbenv rehash >/dev/null ^&1
 
 # Install ruby version if it's necessary
-# __check_ruby_version
+__check_ruby_version
 
 # Fastlane 
 # fish_add_path "$HOME/.fastlane/bin:$PATH"
@@ -130,4 +130,16 @@ set pipenv_fish_fancy yes
 
 
 ## Google Cloud SDK
-source "$(brew --prefix)/share/google-cloud-sdk/path.fish.inc"
+# source "$(brew --prefix)/share/google-cloud-sdk/path.fish.inc"
+
+
+## Kaluza
+set -Ux AWS_PROFILE ia-australia-sandbox
+
+set -Ux SLS_DEBUG *
+set -Ux AWS_NODEJS_CONNECTION_REUSE_ENABLED 1 
+set -Ux AWS_SDK_LOAD_CONFIG 1
+set -Ux AWS_LOG_LEVEL debug
+
+alias python="python3.12"
+alias pip="python3.12 -m pip"
