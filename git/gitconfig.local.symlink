@@ -18,7 +18,7 @@
 	ui = true
 [core]
 	excludesfile = ~/.gitignore
-	editor = nvim
+	editor = code
 	compression = -1
 	autocrlf = input
 	whitespace = trailing-space,space-before-tab
@@ -55,11 +55,11 @@
 [format]
 	signOff = true
 [diff]
-    tool = nvimdiff
-[difftool "nvimdiff"]
-    cmd = nvim -d "$LOCAL" "$REMOTE"
+    tool = vscode
+[difftool "vscode"]
+    cmd = code --wait --diff "$LOCAL" "$REMOTE"
 [merge]
-    tool = nvimmerge
-[mergetool "nvimmerge"]
-    cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env fish
-set -Ux EDITOR nvim
+set -Ux EDITOR code
 set -Ux VISUAL $EDITOR
 
 set -Ux DOTFILES ~/.dotfiles
