@@ -298,6 +298,148 @@ Keep it in an existing component when:
 
 ---
 
+## Handling Missing Tools: Defensive Programming
+
+### The Problem
+
+On a new computer setup, not all tools are installed yet. Your dotfiles should **never break** if a tool is missing. Components must gracefully handle missing dependencies.
+
+### The Solution: Always Check Before Using
+
+Every component should check if its dependencies exist before trying to use them. This is called **defensive programming** or **graceful degradation**.
+
+### Pattern 1: Check if Command Exists
+
+Use `command -q` or `command -qs` to check if a command is available:
+
+```fish
+# ✅ Good: Check before using
+if command -q starship
+    starship init fish | source
+end
+
+# ❌ Bad: Assumes tool exists (will fail if missing)
+starship init fish | source
+```
+
+**Examples from your dotfiles:**
+- `starship/conf.d/starship.fish` - Checks if starship exists
+- `node/conf.d/nvm.fish` - Checks if brew exists before setting up NVM
+- `system/install.fish` - Checks for exa, bat, zoxide before creating aliases
+
+### Pattern 2: Check if Directory Exists
+
+Use `test -d` to check if a directory exists:
+
+```fish
+# ✅ Good: Check if rbenv is installed
+if test -d ~/.rbenv
+    status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
+end
+
+# ❌ Bad: Assumes directory exists
+~/.rbenv/bin/rbenv init - fish | source
+```
+
+**Examples from your dotfiles:**
+- `ruby/install.fish` - Checks if `~/.rbenv` exists before initializing
+- `node/conf.d/nvm.fish` - Checks if `~/.nvm` exists before using it
+
+### Pattern 3: Provide Fallbacks
+
+When possible, provide fallback behavior:
+
+```fish
+# ✅ Good: Fallback to standard ls if exa not available
+if command -qs exa
+    abbr -a l 'exa -lh --icons'
+else
+    abbr -a l 'ls -lAh'  # Fallback
+end
+```
+
+**Example from your dotfiles:**
+- `system/install.fish` - Falls back to `ls` if `exa` isn't installed
+
+### Pattern 4: Silent Failures
+
+Use `2>/dev/null` to suppress error messages when commands might fail:
+
+```fish
+# ✅ Good: Silent failure if command doesn't exist
+if test -d ~/.nvm
+    nvm use default --silent 2>/dev/null
+end
+```
+
+### What Happens on a New Computer?
+
+1. **Bootstrap runs**: `./script/bootstrap.fish` executes all `install.fish` scripts
+2. **Components check**: Each component checks if its tool exists
+3. **Graceful skip**: Missing tools are skipped (no errors!)
+4. **Available tools work**: Installed tools are configured automatically
+5. **Install later**: When you install a tool (e.g., `brew install starship`), restart the shell and it will be configured automatically
+
+**Example: Fresh Mac Setup**
+
+```bash
+# Fresh Mac - only has basic tools
+./script/bootstrap.fish
+# ✅ git/ - works (git comes with macOS)
+# ✅ fish/ - works (you installed fish)
+# ✅ macos/ - works (macOS-specific)
+# ⏭️ starship/ - skipped (starship not installed yet)
+# ⏭️ node/ - skipped (brew/nvm not installed yet)
+# ⏭️ ruby/ - skipped (rbenv not installed yet)
+
+# Later, install tools:
+brew install starship nvm rbenv
+
+# Restart shell - now everything configures automatically!
+```
+
+### Best Practices Checklist
+
+When creating a new component, always:
+
+- ✅ **Check if command exists**: `if command -q toolname`
+- ✅ **Check if directory exists**: `if test -d /path/to/dir`
+- ✅ **Provide fallbacks**: When possible, offer alternative behavior
+- ✅ **Silent failures**: Use `2>/dev/null` for commands that might fail
+- ✅ **Idempotent**: Safe to run multiple times without errors
+- ❌ **Never assume**: Don't assume tools are installed
+
+### Common Fish Shell Checks
+
+```fish
+# Check if command exists (quiet)
+if command -qs toolname
+    # Use toolname
+end
+
+# Check if command exists (verbose)
+if command -q toolname
+    # Use toolname
+end
+
+# Check if directory exists
+if test -d /path/to/directory
+    # Use directory
+end
+
+# Check if file exists
+if test -f /path/to/file
+    # Use file
+end
+
+# Check if running interactively
+if status --is-interactive
+    # Interactive shell code
+end
+```
+
+---
+
 ## Summary
 
 Your dotfiles system is a **modular, component-based configuration manager** where:
