@@ -208,6 +208,96 @@ A: Rename or remove its `install.fish` file, or add an early `exit` at the top.
 
 ---
 
+## Modular vs Monolithic Organization
+
+### How Both Approaches Work
+
+**Both approaches work identically** because of how Fish shell loads configuration:
+
+1. Fish shell loads **ALL** `.fish` files in `~/.config/fish/conf.d/` alphabetically when it starts
+2. The bootstrap script (`00-dotfiles/install.fish`) automatically links all `*/conf.d/*.fish` files to `~/.config/fish/conf.d/`
+3. Having everything in one file (e.g., `starship/conf.d/starship.fish`) = one file loaded
+4. Having separate files (e.g., `node/conf.d/nvm.fish`, `python/conf.d/pyenv.fish`) = multiple files loaded
+5. **Result**: Functionally identical - Fish executes all the code regardless of how it's organized
+
+### Why Modular Organization is Better
+
+While both approaches work, modular organization provides significant benefits:
+
+| Aspect | Monolithic (One Big File) | Modular (Separate Components) |
+|--------|---------------------------|------------------------------|
+| **Finding Config** | Search through 100+ lines | `node/conf.d/nvm.fish` - instant location |
+| **Enable/Disable** | Comment out sections | Remove `node/install.fish` or entire `node/` directory |
+| **Maintainability** | Edit one huge file, risk conflicts | Edit focused files, clear boundaries |
+| **Sharing** | Share entire file | Share just `node/` component |
+| **Organization** | Everything mixed together | Each concern separated logically |
+| **Testing** | Test everything together | Test one component at a time |
+| **Understanding** | Hard to see what belongs where | Clear component boundaries |
+
+### Example: Before and After
+
+**Before (Monolithic)** - Everything in `starship/conf.d/starship.fish`:
+```fish
+# Starship init
+starship init fish | source
+
+# Fish colors
+set -g fish_color_command --bold
+# ... 20 more color settings
+
+# NVM setup
+function nvm ...
+# ... 30 lines of NVM config
+
+# Python setup
+alias python="python3.12"
+# ... more python config
+
+# React Native
+set -g ANDROID_HOME ...
+# ... more RN config
+
+# Ruby
+set PATH $HOME/.rbenv/bin $PATH
+# ... more ruby config
+
+# AWS
+set -Ux AWS_PROFILE ...
+# ... more AWS config
+```
+
+**After (Modular)** - Separated into focused components:
+```
+starship/conf.d/starship.fish    # Just starship init (3 lines)
+fish/conf.d/colors.fish          # Just fish colors
+node/conf.d/nvm.fish              # Just NVM setup
+python/conf.d/aliases.fish        # Just python aliases
+react-native/conf.d/android.fish  # Just React Native config
+ruby/conf.d/rbenv.fish            # Just Ruby/rbenv config
+aws/conf.d/aws.fish               # Just AWS config
+```
+
+### When to Create a New Component
+
+Create a new component when:
+- You have a **distinct tool or concern** (e.g., Node.js, Python, AWS)
+- The configuration is **substantial** (more than a few lines)
+- You might want to **enable/disable it** independently
+- It's a **logical grouping** that makes sense on its own
+
+Keep it in an existing component when:
+- It's a **small addition** to an existing tool
+- It's **tightly coupled** to another component
+- It's just a **few aliases or settings**
+
+### Component Naming Conventions
+
+- Use **lowercase** with hyphens: `react-native/`, `aws/`, `node/`
+- Name after the **primary tool or concern**: `python/`, `ruby/`, `docker/`
+- Keep names **descriptive and clear**: `react-native/` not `rn/`
+
+---
+
 ## Summary
 
 Your dotfiles system is a **modular, component-based configuration manager** where:
@@ -216,6 +306,7 @@ Your dotfiles system is a **modular, component-based configuration manager** whe
 - The bootstrap script runs all installers
 - Everything is linked and configured automatically
 - It's designed to be safe, repeatable, and maintainable
+- **Modular organization** makes it easier to find, maintain, and share configurations
 
 The `@install.fish (1)` notation is just Fish shell showing you that scripts are running - completely normal!
 
