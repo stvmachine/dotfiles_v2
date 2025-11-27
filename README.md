@@ -58,15 +58,16 @@ In cases a file already existed, the boostrap script should have created a `.bac
 
 ## Recommended Software
 
+All tools below are compatible with Fish shell and Starship prompt:
+
 - [`bat`](https://github.com/sharkdp/bat) a cat(1) clone with wings;
 - [`delta`](https://github.com/dandavison/delta) for better git diffs;
 - [`fd`](https://github.com/sharkdp/fd) a simple, fast and user-friendly alternative to `find`;
-- [`fzf`](https://github.com/junegunn/fzf) for a fuzzy-finder;
-- [`gum`](https://github.com/charmbracelet/gum) A tool for glamorous shell scripts;
+- [`fzf`](https://github.com/junegunn/fzf) for a fuzzy-finder (with Fish integration);
 - [`gh`](https://github.com/cli/cli) for more GitHub integration with the terminal;
 - [`grc`](https://github.com/garabik/grc) to colorize command's outputs;
 - [`kubectx`](https://github.com/ahmetb/kubectx) for better Kubernetes context and namespace switch;
-- [`starship.rs`](https://starship.rs) the shell we are using;
+- [`starship.rs`](https://starship.rs) the prompt we are using (Fish is the shell);
 
 ### On Mac
 
