@@ -94,8 +94,6 @@ function install_dotfiles
 
 	link_file $DOTFILES_ROOT/fish/plugins $__fish_config_dir/fish_plugins backup
 		or abort plugins
-	link_file $DOTFILES_ROOT/system/bat.config $HOME/.config/bat/config backup
-		or abort bat
 	link_file $DOTFILES_ROOT/ssh/config.dotfiles $HOME/.ssh/config.dotfiles backup
 		or abort ssh-config
 	link_file $DOTFILES_ROOT/ssh/rc $HOME/.ssh/rc backup

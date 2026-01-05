@@ -1,7 +1,6 @@
 tap "buo/cask-upgrade"
 
 # Custom fonts
-cask "font-fira-code-nerd-font"
 cask "font-droid-sans-mono-nerd-font"
 
 # Recommended by repo
@@ -26,6 +25,7 @@ brew "ruby"
 brew "yarn"
 # Node
 brew "nvm"
+
 # Others tools
 cask "docker-desktop"
 brew "direnv"

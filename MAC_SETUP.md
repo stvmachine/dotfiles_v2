@@ -47,10 +47,7 @@ brew "gh"
 brew "grc"
 brew "kubectx"
 brew "starship"
-brew "zoxide"
 brew "fd"
-brew "exa"
-brew "bat"
 ```
 
 General apps

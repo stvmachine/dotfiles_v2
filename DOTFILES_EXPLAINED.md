@@ -322,7 +322,7 @@ starship init fish | source
 **Examples from your dotfiles:**
 - `starship/conf.d/starship.fish` - Checks if starship exists
 - `node/conf.d/nvm.fish` - Checks if brew exists before setting up NVM
-- `system/install.fish` - Checks for exa, zoxide before creating aliases
+- `starship/conf.d/starship.fish` - Checks if starship exists before configuring it
 
 ### Pattern 2: Check if Directory Exists
 
@@ -347,7 +347,7 @@ end
 When possible, provide fallback behavior:
 
 ```fish
-# ✅ Good: Fallback to standard ls if exa not available
+# ✅ Good: Fallback to standard ls if enhanced ls not available
 if command -qs exa
     abbr -a l 'exa -lh --icons'
 else
@@ -356,7 +356,7 @@ end
 ```
 
 **Example from your dotfiles:**
-- `system/install.fish` - Falls back to `ls` if `exa` isn't installed
+- Various install scripts provide fallbacks for missing optional tools
 
 ### Pattern 4: Silent Failures
 
