@@ -98,7 +98,6 @@ Files ending in `.symlink` are automatically linked to your home directory:
 
 - `git/gitconfig.local.symlink` → `~/.gitconfig.local`
 - `editorconfig/editorconfig.symlink` → `~/.editorconfig`
-- `hyper.js/hyper.js.symlink` → `~/.hyper.js`
 
 This happens in the `install_dotfiles` function (lines 89-105).
 
@@ -127,7 +126,6 @@ This happens in the `install_dotfiles` function (lines 89-105).
 Based on what you mentioned, you've edited:
 
 1. **`starship/`** - Your prompt configuration
-2. **`hyper.js/`** - Your terminal configuration  
 3. **`homebrew/`** - Your package management setup
 
 These are perfect places to customize! Each component is independent.
