@@ -1,10 +1,6 @@
-tap "homebrew/core"
-tap "homebrew/bundle"
-tap "homebrew/services"
-tap "homebrew/cask"
 tap "buo/cask-upgrade"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
+
+
 brew "mas"
 
 # Custom fonts
@@ -15,76 +11,38 @@ cask "font-fira-code-nerd-font"
 brew "curl"
 brew "git"
 brew "fish"
-brew "git-delta"
-brew "fzf"
-brew "gh"
-brew "grc"
-brew "kubectx"
 brew "starship"
-brew "zoxide"
-brew "fd"
-brew "eza"
-brew "bat"
 
 # Text editors/IDEs
 cask "warp"
 cask "visual-studio-code"
+cask "cursor"
 
 # Dev tools
-## Ruby
-# brew "rbenv"
-# brew "ruby-build"
-# brew "ruby"
-## Python
-# brew "pyenv"
-# brew "pipenv"
-## Go
-# brew "go"
-# brew "hugo"
-## Node
 brew "yarn"
 brew "nvm"
-## Others
-cask "docker"
+cask "docker-desktop"
 brew "direnv"
 brew "commitizen"
 
-
 # Productivity
 cask "alfred"
-cask "spectacle"
-
-# Notes
-# cask "obsidian"
-
-# Common apps
-# cask "calibre"
-# cask "vlc"
-# cask "steam"
-
-# DB managers
-# cask "dbeaver-community"
-# cask "mongodb-compass"
-
-# API development
-# cask "insomnia"
-# cask "postman"
+cask "rectangle"
 
 # Browsers
-# cask "brave-browser"
-# cask "firefox@developer-edition"
+cask "brave-browser"
+cask "google-chrome"
+cask "firefox@developer-edition"
+cask "comet" 
 
-# Messaging and videoconference
-# cask "discord"
-# cask "slack"
-# cask "zoom"
+# Work Tools
+cask "1password"
+cask "zoom"
+cask "slack"
 
-# Passwords
-# cask "1password"
-
-# React Native
+## React Native
 # cask "android-studio"
-# OpenJDK Azul Zulu: works for both Intel and M1 macs
+## OpenJDK Azul Zulu: works for both Intel and M1 macs
 # cask "zulu11"
 # brew "watchman"
 
@@ -94,13 +52,3 @@ cask "spectacle"
 
 ## Designer tools
 # cask "figma"
-
-# Install apps already purchased in the mac app store. Not for everyone
-# Be sure to login into the app store in beforehand
-
-# amphetamine
-# mas install 937984704
-
-# Xcode. Will take forever to download, yes. Not needed for everyone.
-# mas install 497799835
-# sudo xcodebuild -license accept
