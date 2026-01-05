@@ -1,0 +1,38 @@
+# Disable Ruby version display since this project doesn't use Ruby
+[ruby]
+disabled = true
+
+# Disable other language versions that aren't used
+[nodejs]
+disabled = true
+
+[python]
+disabled = true
+
+[golang]
+disabled = true
+
+[rust]
+disabled = true
+
+# Keep git status
+[git_status]
+disabled = false
+
+# Basic prompt format
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$character"""
+
+# Right side
+right_format = """
+$time"""
+
+[time]
+disabled = false
+format = "[$time]($style)"
+time_format = "%H:%M"
