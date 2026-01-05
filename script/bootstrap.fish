@@ -128,19 +128,49 @@ for installer in */install.fish
 		or abort $installer
 end
 
-if ! grep (command -v fish) /etc/shells
-	command -v fish | sudo tee -a /etc/shells
+# Get the absolute path to fish
+set fish_path (command -v fish)
+set fish_abs_path (realpath $fish_path 2>/dev/null; or echo $fish_path)
+
+# Add fish to /etc/shells if not already there
+if not grep -q "^$fish_abs_path\$" /etc/shells
+	info "Adding fish to /etc/shells (requires sudo password)..."
+	echo $fish_abs_path | sudo tee -a /etc/shells > /dev/null
 		and success 'added fish to /etc/shells'
-		or abort 'setup /etc/shells'
-	echo
+		or abort 'failed to add fish to /etc/shells'
 end
 
-test (which fish) = $SHELL
-	and success 'dotfiles installed/updated!'
-	and exit 0
+# Check if fish is already the default shell
+# On macOS, check the actual login shell using dscl
+switch (uname)
+case Darwin
+	set current_shell (dscl . -read /Users/(whoami) UserShell 2>/dev/null | sed 's/UserShell: //')
+case '*'
+	# On Linux, check /etc/passwd or use getent
+	set current_shell (getent passwd (whoami) 2>/dev/null | cut -d: -f7; or echo $SHELL)
+end
 
-chsh -s (which fish)
-	and success set (fish --version) as the default shell
-	or abort 'set fish as default shell'
+if test -z "$current_shell"
+	set current_shell $SHELL
+end
+
+set current_shell_resolved (realpath $current_shell 2>/dev/null; or echo $current_shell)
+
+if test "$fish_abs_path" = "$current_shell_resolved"
+	success "fish is already the default shell"
+	success 'dotfiles installed/updated!'
+	exit 0
+end
+
+# Change default shell to fish
+info "Changing default shell to fish (requires password)..."
+info "You may be prompted for your password"
+chsh -s $fish_abs_path
+	and success "set fish as the default shell"
+	or begin
+		user "Failed to change shell automatically. Please run manually:"
+		echo "  chsh -s $fish_abs_path"
+		abort 'could not set fish as default shell'
+	end
 
 success 'dotfiles installed/updated!'

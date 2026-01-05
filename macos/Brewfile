@@ -1,8 +1,5 @@
 tap "buo/cask-upgrade"
 
-
-brew "mas"
-
 # Custom fonts
 cask "font-fira-code-nerd-font"
 
@@ -19,8 +16,16 @@ cask "visual-studio-code"
 cask "cursor"
 
 # Dev tools
+# Ruby
+brew "rbenv"
+brew "ruby"
+# Python
+# brew "pyenv"
+# brew "pipenv"
 brew "yarn"
+# Node
 brew "nvm"
+# Others tools
 cask "docker-desktop"
 brew "direnv"
 brew "commitizen"
@@ -41,14 +46,22 @@ cask "zoom"
 cask "slack"
 
 ## React Native
-# cask "android-studio"
+cask "android-studio"
 ## OpenJDK Azul Zulu: works for both Intel and M1 macs
 # cask "zulu11"
-# brew "watchman"
+brew "watchman"
 
 ## Debuggers
-# cask "react-native-debugger"
+cask "react-native-debugger"
 # cask "flipper"
 
 ## Designer tools
-# cask "figma"
+cask "figma"
+
+## DB managers
+# cask "dbeaver-community"
+# cask "mongodb-compass"
+
+## API development
+# cask "insomnia"
+# cask "postman"

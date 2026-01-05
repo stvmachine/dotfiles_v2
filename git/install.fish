@@ -34,7 +34,20 @@ abbr -a gcam 'git commit -sam'
 abbr -a gs 'git status -sb'
 abbr -a glnext 'git log --oneline (git describe --tags --abbrev=0 @^)..@'
 abbr -a gw 'git switch'
-abbr -a gm 'git switch (git main-branch)'
-abbr -a gms 'git switch (git main-branch); and git sync'
-abbr -a egms 'e; git switch (git main-branch); and git sync'
 abbr -a gwc 'git switch -c'
+
+# Functions for dynamic git commands
+function gm -d "Switch to main branch"
+	git switch (git main-branch) $argv
+end
+
+function gms -d "Switch to main branch and sync"
+	git switch (git main-branch)
+	and git sync
+end
+
+function egms -d "Open editor, switch to main branch and sync"
+	$EDITOR .
+	and git switch (git main-branch)
+	and git sync
+end
