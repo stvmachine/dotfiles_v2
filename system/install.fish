@@ -3,12 +3,8 @@ abbr -a less 'less -r'
 
 # fzf configuration
 if command -qs fzf
-    # Use fd for fzf if available, otherwise use find
-    if command -qs fd
-        set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
-    else
-        set -gx FZF_DEFAULT_COMMAND 'find . -type f -not -path "*/\.git/*"'
-    end
+    # Use fd for fzf (faster than find)
+    set -gx FZF_DEFAULT_COMMAND 'fd --type f --hidden --follow --exclude .git'
 
     # fzf options
     set -gx FZF_DEFAULT_OPTS '
