@@ -48,6 +48,7 @@ brew "grc"
 brew "kubectx"
 brew "starship"
 brew "fd"
+brew "bat"
 ```
 
 General apps

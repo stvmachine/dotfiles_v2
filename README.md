@@ -60,7 +60,7 @@ In cases a file already existed, the boostrap script should have created a `.bac
 
 All tools below are compatible with Fish shell and Starship prompt:
 
-
+- [`bat`](https://github.com/sharkdp/bat) a cat(1) clone with wings;
 - [`fzf`](https://github.com/junegunn/fzf) for a fuzzy-finder (with Fish integration);
 - [`gh`](https://github.com/cli/cli) for more GitHub integration with the terminal;
 - [`grc`](https://github.com/garabik/grc) to colorize command's outputs;
