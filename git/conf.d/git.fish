@@ -18,4 +18,5 @@ abbr -a -g gs 'git status -sb'
 abbr -a -g glnext 'git log --oneline (git describe --tags --abbrev=0 @^)..@'
 abbr -a -g gw 'git switch'
 abbr -a -g gwc 'git switch -c'
+abbr -a -g personal 'git config --local user.name "stvmachine"; and git config --local user.email "campos.esteban@gmail.com"'
 

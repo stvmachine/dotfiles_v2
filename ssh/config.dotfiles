@@ -9,3 +9,12 @@ Host *
 Host localhost
 	UserKnownHostsFile /dev/null
 	StrictHostKeyChecking no
+
+# Personal GitHub profile (stvmachine)
+Host github-personal
+	HostName github.com
+	User git
+	AddKeysToAgent yes
+	UseKeychain yes
+	IdentityFile ~/.ssh/id_ed25519
+	IdentitiesOnly yes
