@@ -83,7 +83,6 @@ Each `install.fish` script is **idempotent** - you can run it multiple times saf
 
 **`git/install.fish`** (Complex):
 - Configures git credential helpers
-- Sets up delta for better diffs
 - Creates many git abbreviations (`g`, `gl`, `gp`, etc.)
 
 **`macos/install.fish`** (Platform-specific):
@@ -325,7 +324,7 @@ starship init fish | source
 **Examples from your dotfiles:**
 - `starship/conf.d/starship.fish` - Checks if starship exists
 - `node/conf.d/nvm.fish` - Checks if brew exists before setting up NVM
-- `system/install.fish` - Checks for exa, bat, zoxide before creating aliases
+- `system/install.fish` - Checks for exa, zoxide before creating aliases
 
 ### Pattern 2: Check if Directory Exists
 

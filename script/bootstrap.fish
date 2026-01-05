@@ -102,7 +102,7 @@ function install_dotfiles
 		or abort ssh-rc
 end
 
-curl -sL git.io/fisher | source && fisher install jorgebucaran/fisher
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 	and success 'fisher'
 	or abort 'fisher'
 
