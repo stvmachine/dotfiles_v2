@@ -4,6 +4,6 @@ fish_add_path --prepend /usr/local/bin
 fish_add_path $HOME/.local/bin
 
 # Load credentials
-if test -f $HOME/.dotfiles/credentials/npm.fish
-    source $HOME/.dotfiles/credentials/npm.fish
+if test -f $HOME/.credentials/npm.fish
+    source $HOME/.credentials/npm.fish
 end
