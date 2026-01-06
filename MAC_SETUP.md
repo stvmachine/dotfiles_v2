@@ -4,12 +4,21 @@ Facing the setup of a new machine (or the need to reinstall after a fresh OS ins
 
 ## Homebrew & Cask
 
-The package manager is the default first thing I always install. Simply following the default steps. Homebrew downloads and installs the Command Line Tools for Xcode, so we're all good. Homebrew Cask is implemented as part of Homebrew now, so we're cask-enabled and ready from the start for our tapping. Finally, `brew-cask-upgrade` provides upgrade-like capabilities to cask, and we're all set.
+The package manager is the default first thing I always install. Simply following the default steps. Homebrew should download and install the Command Line Tools for Xcode automatically, but if it doesn't work, you can install them manually:
+
+```bash
+# Install Command Line Tools for Xcode (if Homebrew doesn't install them automatically)
+xcode-select --install
+```
+
+Then install Homebrew and tap the cask upgrade repository:
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew tap buo/cask-upgrade
 ```
+
+Homebrew Cask is implemented as part of Homebrew now, so we're cask-enabled and ready from the start for our tapping. Finally, `brew-cask-upgrade` provides upgrade-like capabilities to cask, and we're all set.
 
 If you need to combine or update your own Brewfile, you can check the [following instructions](https://gist.github.com/stvmachine/55e78bba6fa123f56e62b8ad14c3aaf0).
 
