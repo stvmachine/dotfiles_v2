@@ -7,7 +7,6 @@ Facing the setup of a new machine (or the need to reinstall after a fresh OS ins
 The package manager is the default first thing I always install. Simply following the default steps. Homebrew should download and install the Command Line Tools for Xcode automatically, but if it doesn't work, you can install them manually:
 
 ```bash
-# Install Command Line Tools for Xcode (if Homebrew doesn't install them automatically)
 xcode-select --install
 ```
 
