@@ -14,5 +14,3 @@
 dump.rdb
 main.tfvars
 coverage.out
-credentials/
-!credentials/*.example
