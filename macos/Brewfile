@@ -49,7 +49,7 @@ cask "slack"
 ## React Native
 cask "android-studio"
 ## OpenJDK Azul Zulu: works for both Intel and M1 macs
-# cask "zulu11"
+cask "zulu@11"
 brew "watchman"
 
 ## Debuggers

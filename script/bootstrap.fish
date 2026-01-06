@@ -112,7 +112,7 @@ install_dotfiles
 	and success 'dotfiles'
 	or abort 'dotfiles'
 
-fisher update
+fish -c 'curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher update'
 	and success 'plugins'
 	or abort 'plugins'
 
