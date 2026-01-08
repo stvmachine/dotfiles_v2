@@ -290,7 +290,7 @@ Keep it in an existing component when:
 ### Component Naming Conventions
 
 - Use **lowercase** with hyphens: `react-native/`, `aws/`, `node/`
-- Name after the **primary tool or concern**: `python/`, `ruby/`, `docker/`
+- Name after the **primary tool or concern**: `python/`, `ruby/`, `scripts/docker/`
 - Keep names **descriptive and clear**: `react-native/` not `rn/`
 
 ---
