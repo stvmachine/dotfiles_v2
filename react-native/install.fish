@@ -1,6 +1,7 @@
 #!/usr/bin/env fish
 # React Native and Android SDK setup
 
+set -gx JAVA_HOME=$HOME/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 set -gx ANDROID_HOME $HOME/Library/Android/sdk
 set -gx ANDROID_SDK_ROOT $HOME/Library/Android/sdk
 

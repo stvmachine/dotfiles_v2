@@ -25,6 +25,7 @@ brew "ruby"
 brew "yarn"
 # Node
 brew "nvm"
+cask "claude-code"
 
 # Others tools
 cask "docker-desktop"
@@ -34,6 +35,7 @@ brew "commitizen"
 # Productivity
 cask "alfred"
 cask "rectangle"
+cask "fork"
 
 # Browsers
 cask "brave-browser"
@@ -49,7 +51,7 @@ cask "slack"
 ## React Native
 cask "android-studio"
 ## OpenJDK Azul Zulu: works for both Intel and M1 macs
-cask "zulu@11"
+cask "zulu@17"
 brew "watchman"
 
 ## Debuggers
