@@ -2,7 +2,7 @@
 # For not shake on RN to access debug options
 alias rnmenu "adb shell input keyevent 82"
 
-set -gx JAVA_HOME $HOME/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
+set -gx JAVA_HOME /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 set -gx ANDROID_HOME $HOME/Library/Android/sdk
 set -gx ANDROID_SDK_ROOT $HOME/Library/Android/sdk
 
