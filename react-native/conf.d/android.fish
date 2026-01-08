@@ -13,4 +13,3 @@ if test -d $ANDROID_HOME
 	set -gx PATH $ANDROID_HOME/emulator $PATH 2>/dev/null; or true
 	set -gx PATH $ANDROID_HOME/platform-tools $PATH 2>/dev/null; or true
 end
-
