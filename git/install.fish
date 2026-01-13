@@ -23,3 +23,4 @@ function egms -d "Open editor, switch to main branch and sync"
 	and git switch (git main-branch)
 	and git sync
 end
+

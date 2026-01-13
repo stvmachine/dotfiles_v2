@@ -18,3 +18,13 @@ Host github-personal
 	UseKeychain yes
 	IdentityFile ~/.ssh/id_ed25519
 	IdentitiesOnly yes
+
+# Work GitHub profile
+# TODO: Update IdentityFile path to your work SSH key
+Host github-work
+	HostName github.com
+	User git
+	AddKeysToAgent yes
+	UseKeychain yes
+	IdentityFile ~/.ssh/work_profile
+	IdentitiesOnly yes
