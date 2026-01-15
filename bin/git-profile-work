@@ -1,0 +1,35 @@
+#!/usr/bin/env fish
+
+# Switch to work git profile (updates remotes to use github-work SSH key)
+# Note: Git user.name and user.email are set automatically
+
+git config --local user.name "ecampos-medtasker"
+git config --local user.email "ecampos@medtasker.com"
+
+# Update existing remotes to use work SSH key (github-work)
+for remote in (git remote)
+	set remote_url (git remote get-url $remote)
+	
+	# Handle github-personal SSH URLs: git@github-personal:user/repo -> git@github-work:user/repo
+	if string match -q "git@github-personal:*" $remote_url
+		set new_url (string replace "git@github-personal:" "git@github-work:" $remote_url)
+		git remote set-url $remote $new_url
+		echo "Updated remote '$remote': $new_url"
+	# Handle github.com SSH URLs: git@github.com:user/repo -> git@github-work:user/repo
+	else if string match -q "git@github.com:*" $remote_url
+		set new_url (string replace "git@github.com:" "git@github-work:" $remote_url)
+		git remote set-url $remote $new_url
+		echo "Updated remote '$remote': $new_url"
+	# Handle HTTPS URLs: https://github.com/user/repo -> git@github-work:user/repo
+	else if string match -q "https://github.com/*" $remote_url
+		set repo_path (string replace "https://github.com/" "" $remote_url)
+		set new_url "git@github-work:$repo_path"
+		git remote set-url $remote $new_url
+		echo "Updated remote '$remote': $new_url (converted HTTPS to SSH)"
+	# Skip if already using github-work
+	else if string match -q "*github-work*" $remote_url
+		echo "Remote '$remote' already uses github-work"
+	end
+end
+
+echo "Switched to work git profile: ecampos-medtasker <ecampos@medtasker.com>"
