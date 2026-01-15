@@ -25,6 +25,7 @@ brew "ruby"
 brew "yarn"
 # Node
 brew "nvm"
+brew "pnpm"
 cask "claude-code"
 
 # Others tools
