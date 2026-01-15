@@ -66,19 +66,26 @@ All tools below are compatible with Fish shell and Starship prompt:
 - [`grc`](https://github.com/garabik/grc) to colorize command's outputs;
 - [`starship.rs`](https://starship.rs) the prompt we are using (Fish is the shell);
 
-### On Mac
+## Mac Setup
 
-Follow the instructions [`here`](MAC_SETUP.md).
+Facing the setup of a new machine (or the need to reinstall after a fresh OS install or the like), here's a very brief and basic list of the usual suspects, related to the setup of a mac computer to work with (mostly related to a scripting languages context).
 
-### On Ubuntu
+The package manager is the default first thing I always install. Simply following the default steps. Homebrew should download and install the Command Line Tools for Xcode automatically, but if it doesn't work, you can install them manually:
 
-```console
-sh -c "$(curl -fsSL https://starship.rs/install.sh)"
-sudo apt install fish grc fzf
-# TODO: install delta, kubectx
+```bash
+xcode-select --install
 ```
 
-## macOS defaults
+Install brew and install apps
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+brew bundle --file ~/.dotfiles/macos/Brewfile 
+```
+
+
+### macOS defaults
 
 You use it by running:
 
@@ -87,3 +94,8 @@ You use it by running:
 ```
 
 And logging out and in again or restart.
+
+
+## Acknowledge
+
+Thanks to alexramirez: <https://github.com/alexramirez/mac-setup>
