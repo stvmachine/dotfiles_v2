@@ -1,4 +1,24 @@
 #!/usr/bin/env fish
+#
+# Deletes local branches that have been merged into the main branch.
+# Also detects and removes branches that were squash-merged.
+#
+# Examples
+#
+#   git delete-local-merged
+
+if contains -- --help $argv; or contains -- -h $argv
+    echo "Usage: git delete-local-merged"
+    echo ""
+    echo "Deletes local branches that have been merged into the main branch."
+    echo "Also detects and removes branches that were squash-merged (GitHub's"
+    echo "'Squash and merge' button)."
+    echo ""
+    echo "Examples:"
+    echo "  git delete-local-merged   # Clean up all merged branches"
+    exit 0
+end
+
 function log
 	echo (set_color --bold magenta) "---> $argv" (set_color normal)
 end

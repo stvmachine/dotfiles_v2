@@ -1,0 +1,30 @@
+#!/usr/bin/env fish
+#
+# Pulls latest changes from origin and pushes back to the same branch.
+#
+# Examples
+#
+#   git pull-push
+
+if contains -- --help $argv; or contains -- -h $argv
+    echo "Usage: git pull-push"
+    echo ""
+    echo "Pulls latest changes from the current branch on origin,"
+    echo "then pushes your changes back to the same branch."
+    echo ""
+    echo "Examples:"
+    echo "  git pull-push   # Pull latest and push your changes"
+    exit 0
+end
+
+function log
+	echo (set_color --bold magenta) "---> $argv" (set_color normal)
+end
+
+set branch (git symbolic-ref --short HEAD)
+
+log "Pulling latest changes from origin/$branch..."
+	and git pull origin $branch
+	and log "Pushing to origin/$branch..."
+	and git push origin $branch
+	and log "All done!"

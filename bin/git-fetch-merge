@@ -1,4 +1,27 @@
 #!/usr/bin/env fish
+#
+# Fetches and merges a branch from upstream (or origin).
+#
+# $1 - Branch name (optional, defaults to main branch)
+#
+# Examples
+#
+#   git fetch-merge
+#   git fetch-merge develop
+
+if contains -- --help $argv; or contains -- -h $argv
+    echo "Usage: git fetch-merge [branch]"
+    echo ""
+    echo "Fetches and merges a branch from upstream (or origin if no upstream)."
+    echo ""
+    echo "Arguments:"
+    echo "  branch   Branch to fetch and merge (default: main branch)"
+    echo ""
+    echo "Examples:"
+    echo "  git fetch-merge           # Fetch and merge the main branch"
+    echo "  git fetch-merge develop   # Fetch and merge the develop branch"
+    exit 0
+end
 
 set remote (git remote | grep upstream)
 set branch $argv[1]

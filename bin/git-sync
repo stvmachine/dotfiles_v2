@@ -1,4 +1,30 @@
 #!/usr/bin/env fish
+#
+# Synchronizes your fork with upstream, then cleans up merged branches.
+# Prunes stale remote-tracking branches, fetches and merges from upstream
+# (or origin), pushes to your fork, and removes merged local branches.
+#
+# Examples
+#
+#   git sync
+
+if contains -- --help $argv; or contains -- -h $argv
+    echo "Usage: git sync"
+    echo ""
+    echo "Synchronizes your fork with upstream, then cleans up merged branches."
+    echo ""
+    echo "What it does:"
+    echo "  1. Prunes stale remote-tracking branches"
+    echo "  2. Fetches and merges from upstream (or origin if no upstream)"
+    echo "  3. Pushes to your fork (origin) if using upstream"
+    echo "  4. Sets up branch tracking"
+    echo "  5. Deletes local branches that have been merged"
+    echo ""
+    echo "Examples:"
+    echo "  git sync   # Sync current branch with upstream and clean up"
+    exit 0
+end
+
 function log
 	echo (set_color --bold magenta) "---> $argv" (set_color normal)
 end

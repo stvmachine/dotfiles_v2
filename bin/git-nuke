@@ -8,6 +8,22 @@
 #
 #   git nuke add-git-nuke
 
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+    echo "Usage: git nuke <branch-or-tag>"
+    echo ""
+    echo "Nukes a branch or tag locally and on the origin remote."
+    echo "Completely removes the specified branch or tag from both your"
+    echo "local repository and the origin remote."
+    echo ""
+    echo "Arguments:"
+    echo "  branch-or-tag   Name of the branch or tag to delete"
+    echo ""
+    echo "Examples:"
+    echo "  git nuke feature-branch   # Delete feature-branch everywhere"
+    echo "  git nuke v1.0.0           # Delete tag v1.0.0 everywhere"
+    exit 0
+fi
+
 git show-ref --verify refs/tags/"$1" && git tag -d "$1"
 git show-ref --verify refs/heads/"$1" && git branch -D "$1"
 git push origin :"$1"

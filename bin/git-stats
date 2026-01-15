@@ -1,5 +1,23 @@
 #!/usr/bin/env fish
-# based on https://twitter.com/thorstenball/status/1293181225280999431
+#
+# Shows your contribution statistics for the last 30 days.
+# Based on https://twitter.com/thorstenball/status/1293181225280999431
+#
+# Examples
+#
+#   git stats
+
+if contains -- --help $argv; or contains -- -h $argv
+    echo "Usage: git stats"
+    echo ""
+    echo "Shows your contribution statistics for the last 30 days."
+    echo "Displays lines added (green), lines removed (red), and net total."
+    echo ""
+    echo "Examples:"
+    echo "  git stats   # Show your 30-day contribution stats"
+    exit 0
+end
+
 git log \
 	--since '30 days ago' \
 	--author (git config --global user.name) \

@@ -1,4 +1,26 @@
 #!/usr/bin/env fish
+#
+# Detects whether the repository uses 'main' or 'master' as the default branch.
+#
+# Examples
+#
+#   git main-branch
+#   git checkout (git main-branch)
+#   git rebase (git main-branch)
+
+if contains -- --help $argv; or contains -- -h $argv
+    echo "Usage: git main-branch"
+    echo ""
+    echo "Detects whether the repository uses 'main' or 'master' as the default branch."
+    echo "Outputs the branch name to stdout."
+    echo ""
+    echo "Examples:"
+    echo "  git main-branch              # Prints 'main' or 'master'"
+    echo "  git checkout (git main-branch)  # Switch to the main branch"
+    echo "  git rebase (git main-branch)    # Rebase onto the main branch"
+    exit 0
+end
+
 set toplevel (git rev-parse --show-toplevel)
 and if test -f $toplevel/.git/refs/remotes/origin/main
 	echo main
