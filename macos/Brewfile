@@ -12,8 +12,10 @@ brew "starship"
 
 # Text editors/IDEs
 cask "warp"
-cask "visual-studio-code"
-cask "cursor"
+cask "zed"
+cask "claude-code"
+brew "lazygit"
+brew "hellix"
 
 # Dev tools
 # Ruby
@@ -26,7 +28,6 @@ brew "yarn"
 # Node
 brew "nvm"
 brew "pnpm"
-cask "claude-code"
 
 # Others tools
 cask "docker-desktop"
@@ -42,22 +43,18 @@ cask "fork"
 cask "brave-browser"
 cask "google-chrome"
 cask "firefox@developer-edition"
-cask "comet" 
+cask "comet"
 
 # Work Tools
-cask "1password"
-cask "zoom"
-cask "slack"
+# cask "1password"
+# cask "zoom"
+# cask "slack"
 
 ## React Native
 cask "android-studio"
 ## OpenJDK Azul Zulu: works for both Intel and M1 macs
 cask "zulu@17"
 brew "watchman"
-
-## Debuggers
-cask "react-native-debugger"
-# cask "flipper"
 
 ## Designer tools
 cask "figma"
@@ -69,4 +66,3 @@ cask "figma"
 ## API development
 # cask "insomnia"
 # cask "postman"
-

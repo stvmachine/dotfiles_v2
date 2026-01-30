@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 #
-# Pulls latest changes from origin and pushes back to the same branch.
+# Pulls latest changes and pushes only if there are new commits to push.
 #
 # Examples
 #
@@ -9,11 +9,11 @@
 if contains -- --help $argv; or contains -- -h $argv
     echo "Usage: git pull-push"
     echo ""
-    echo "Pulls latest changes from the current branch on origin,"
-    echo "then pushes your changes back to the same branch."
+    echo "Pulls latest changes from upstream (or origin), then pushes"
+    echo "your commits back to origin only if there are new commits to push."
     echo ""
     echo "Examples:"
-    echo "  git pull-push   # Pull latest and push your changes"
+    echo "  git pull-push   # Pull latest and push only if needed"
     exit 0
 end
 
@@ -22,9 +22,24 @@ function log
 end
 
 set branch (git symbolic-ref --short HEAD)
+set remote origin
 
-log "Pulling latest changes from origin/$branch..."
-	and git pull origin $branch
-	and log "Pushing to origin/$branch..."
-	and git push origin $branch
-	and log "All done!"
+# Check if upstream exists and use it for pull
+set upstream_remote (git remote | grep upstream)
+if test -n "$upstream_remote"
+	set remote $upstream_remote
+end
+
+log "Pulling latest changes from $remote/$branch..."
+	and git pull $remote $branch
+	and begin
+		# Check if there are commits to push
+		set -l commits_to_push (git log --oneline origin/$branch..HEAD 2>/dev/null | wc -l | string trim)
+		if test $commits_to_push -gt 0
+			log "Pushing $commits_to_push commit(s) to origin/$branch..."
+			and git push origin $branch
+			and log "All done!"
+		else
+			log "No new commits to push. All done!"
+		end
+	end

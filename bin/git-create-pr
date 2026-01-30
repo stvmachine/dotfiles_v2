@@ -1,0 +1,205 @@
+#!/usr/bin/env fish
+#
+# Creates a GitHub Pull Request with a standardized description.
+# Detects base branch, extracts ticket ID, and generates PR details.
+#
+# Examples
+#
+#   git create-pr
+#   git create-pr --draft
+
+if contains -- --help $argv; or contains -- -h $argv
+    echo "Usage: git create-pr [--draft]"
+    echo ""
+    echo "Creates a GitHub Pull Request with a standardized description."
+    echo "Automatically detects base branch, extracts ticket ID from branch name,"
+    echo "and generates PR title and description from commits."
+    echo ""
+    echo "Options:"
+    echo "  --draft   Create as draft PR"
+    echo ""
+    echo "Examples:"
+    echo "  git create-pr          # Create PR"
+    echo "  git create-pr --draft  # Create draft PR"
+    exit 0
+end
+
+function log
+    echo (set_color --bold magenta) "---> $argv" (set_color normal)
+end
+
+function log_error
+    echo (set_color --bold red) "Error: $argv" (set_color normal) >&2
+end
+
+function log_info
+    echo (set_color cyan) "     $argv" (set_color normal)
+end
+
+# Check if gh CLI is installed
+if not command -q gh
+    log_error "GitHub CLI (gh) is not installed. Install with: brew install gh"
+    exit 1
+end
+
+# Check if authenticated with gh
+if not gh auth status &>/dev/null
+    log_error "Not authenticated with GitHub CLI. Run: gh auth login"
+    exit 1
+end
+
+# Check for draft flag
+set draft_flag ""
+if contains -- --draft $argv
+    set draft_flag "--draft"
+end
+
+# Get current branch
+set branch (git symbolic-ref --short HEAD 2>/dev/null)
+if test -z "$branch"
+    log_error "Not on a git branch"
+    exit 1
+end
+
+log "Creating PR for branch: $branch"
+
+# Extract ticket ID from branch name (e.g., MT-9082 from fix/MT-9082_description)
+set ticket_id (echo $branch | grep -oE '[A-Z]+-[0-9]+' | head -1)
+if test -n "$ticket_id"
+    log_info "Ticket ID: $ticket_id"
+else
+    log_info "No ticket ID found in branch name"
+    set ticket_id ""
+end
+
+# Detect base branch
+log "Detecting base branch..."
+
+# Try to find a release branch first
+set base_branch (git branch -r 2>/dev/null | grep -E 'origin/release/[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -1 | string trim)
+
+if test -z "$base_branch"
+    # Fall back to main or master
+    if git rev-parse --verify origin/main &>/dev/null
+        set base_branch "origin/main"
+    else if git rev-parse --verify origin/master &>/dev/null
+        set base_branch "origin/master"
+    else
+        log_error "Could not determine base branch"
+        exit 1
+    end
+end
+
+# Remove origin/ prefix for gh command
+set base_branch_name (string replace "origin/" "" $base_branch)
+log_info "Base branch: $base_branch_name"
+
+# Get commits on this branch vs base
+set commits (git log $base_branch..HEAD --oneline 2>/dev/null)
+if test -z "$commits"
+    log_error "No commits found between $base_branch and HEAD"
+    exit 1
+end
+
+log "Commits to include:"
+for commit in (echo $commits | head -10)
+    log_info "$commit"
+end
+
+set commit_count (echo $commits | wc -l | string trim)
+if test $commit_count -gt 10
+    log_info "... and "(math $commit_count - 10)" more"
+end
+
+# Infer PR type from branch name or first commit
+set pr_type ""
+if string match -qr '^feat' $branch; or string match -qir 'feat' (echo $commits | head -1)
+    set pr_type "feat"
+else if string match -qr '^fix' $branch; or string match -qir 'fix' (echo $commits | head -1)
+    set pr_type "fix"
+else if string match -qr '^refactor' $branch; or string match -qir 'refactor' (echo $commits | head -1)
+    set pr_type "refactor"
+else if string match -qr '^docs' $branch; or string match -qir 'docs' (echo $commits | head -1)
+    set pr_type "docs"
+else if string match -qr '^style' $branch; or string match -qir 'style' (echo $commits | head -1)
+    set pr_type "style"
+else if string match -qr '^test' $branch; or string match -qir 'test' (echo $commits | head -1)
+    set pr_type "test"
+else if string match -qr '^chore' $branch; or string match -qir 'chore' (echo $commits | head -1)
+    set pr_type "chore"
+else if string match -qr '^perf' $branch; or string match -qir 'perf' (echo $commits | head -1)
+    set pr_type "perf"
+else if string match -qr '^ci' $branch; or string match -qir 'ci' (echo $commits | head -1)
+    set pr_type "ci"
+else
+    set pr_type "feat"
+end
+
+log_info "PR type: $pr_type"
+
+# Generate PR title
+set first_commit_msg (echo $commits | head -1 | sed 's/^[a-f0-9]* //')
+if test -n "$ticket_id"
+    set pr_title "$pr_type/$ticket_id $first_commit_msg"
+else
+    set pr_title "$pr_type: $first_commit_msg"
+end
+
+# Generate commit list for description
+set commit_list ""
+for commit in (echo $commits)
+    set commit_list "$commit_list
+- $commit"
+end
+
+# Generate PR description
+set ticket_section "N/A"
+if test -n "$ticket_id"
+    set ticket_section "$ticket_id"
+end
+
+set pr_body "## Summary
+$first_commit_msg
+
+## Ticket
+$ticket_section
+
+## Changes
+$commit_list
+"
+
+# Show generated PR details
+echo ""
+log "Generated PR details:"
+echo ""
+echo (set_color --bold white)"Title:"(set_color normal)" $pr_title"
+echo ""
+echo (set_color --bold white)"Description:"(set_color normal)
+echo "$pr_body"
+echo ""
+
+# Ask for confirmation
+read -P (set_color --bold yellow)"Create this PR? [Y/n/e(dit title)]: "(set_color normal) confirm
+
+switch $confirm
+    case n N no No NO
+        log "PR creation cancelled"
+        exit 0
+    case e E edit Edit EDIT
+        read -P "Enter new title: " pr_title
+end
+
+# Create the PR
+log "Creating PR..."
+if test -n "$draft_flag"
+    gh pr create --base $base_branch_name --title "$pr_title" --body "$pr_body" $draft_flag
+else
+    gh pr create --base $base_branch_name --title "$pr_title" --body "$pr_body"
+end
+
+if test $status -eq 0
+    log "PR created successfully!"
+else
+    log_error "Failed to create PR"
+    exit 1
+end
