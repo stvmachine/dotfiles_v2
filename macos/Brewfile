@@ -56,6 +56,10 @@ cask "android-studio"
 cask "zulu@17"
 brew "watchman"
 
+## Maestro
+brew "maestro"
+cask "chromium" # for taiko
+
 ## Designer tools
 cask "figma"
 
