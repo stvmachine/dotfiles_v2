@@ -1,0 +1,27 @@
+{
+	"mcpServers": {
+		"maestro": {
+			"command": "maestro",
+			"args": ["mcp"]
+		},
+		"serena": {
+			"type": "stdio",
+			"command": "uvx",
+			"args": [
+				"--from",
+				"git+https://github.com/oraios/serena",
+				"serena",
+				"start-mcp-server",
+				"--context",
+				"ide-assistant",
+				"--project",
+				"/Users/esteban"
+			],
+			"env": {}
+		},
+		"figma": {
+			"type": "http",
+			"url": "https://mcp.figma.com/mcp"
+		}
+	}
+}
