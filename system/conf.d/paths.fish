@@ -1,3 +1,6 @@
+# Environment variables
+set -gx PROJECTS $HOME/Projects
+
 # System PATH additions
 fish_add_path /opt/homebrew/bin $PATH
 fish_add_path --prepend /usr/local/bin
