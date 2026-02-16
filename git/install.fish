@@ -1,5 +1,8 @@
 #!/usr/bin/env fish
 
+# Default editor
+git config --global core.editor zed
+
 # Don't ask ssh password all the time
 switch (uname)
 case Darwin
@@ -23,4 +26,3 @@ function egms -d "Open editor, switch to main branch and sync"
 	and git switch (git main-branch)
 	and git sync
 end
-
