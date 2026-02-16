@@ -1,0 +1,44 @@
+[
+	{
+		"label": "start lazygit",
+		"command": "lazygit",
+		"hide": "on_success",
+		"reveal_target": "center",
+		"show_summary": false,
+		"show_command": false,
+		"allow_concurrent_runs": true,
+		"use_new_terminal": true,
+		"shell": {
+			"with_arguments": {
+				"program": "/bin/bash",
+				"args": ["--noprofile", "--norc", "-c"]
+			}
+		}
+	},
+	{
+		"label": "File Finder",
+		"command": "zed \"$(tv files)\"",
+		"hide": "always",
+		"allow_concurrent_runs": true,
+		"use_new_terminal": true,
+		"shell": {
+			"with_arguments": {
+				"program": "/bin/bash",
+				"args": ["--noprofile", "--norc", "-c"]
+			}
+		}
+	},
+	{
+		"label": "Find in Files",
+		"command": "zed \"$(tv text)\"",
+		"hide": "always",
+		"allow_concurrent_runs": false,
+		"use_new_terminal": true,
+		"shell": {
+			"with_arguments": {
+				"program": "/bin/bash",
+				"args": ["--noprofile", "--norc", "-c"]
+			}
+		}
+	}
+]

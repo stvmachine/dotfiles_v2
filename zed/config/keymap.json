@@ -1,0 +1,23 @@
+[
+	{
+		"context": "Workspace",
+		"bindings": {
+			"cmd-g": [
+				"task::Spawn",
+				{ "task_name": "start lazygit", "reveal_target": "center" }
+			],
+			"cmd-p": [
+				"task::Spawn",
+				{ "task_name": "File Finder", "reveal_target": "center" }
+			],
+			"cmd-f": [
+				"task::Spawn",
+				{ "task_name": "Find in Files", "reveal_target": "center" }
+			],
+			"cmd-alt-c": [
+				"agent::NewExternalAgentThread",
+				{ "agent": "claude_code" }
+			]
+		}
+	}
+]
