@@ -13,7 +13,8 @@
       "mcp__serena__list_memories",
       "mcp__serena__read_memory",
       "mcp__sequential-thinking__sequentialthinking",
-      "mcp__serena__find_symbol"
+      "mcp__serena__find_symbol",
+      "mcp__serena__find_file"
     ]
   }
 }
