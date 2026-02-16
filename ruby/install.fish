@@ -1,13 +1,11 @@
 #!/usr/bin/env fish
 # Ruby and rbenv setup
 
-# Ruby paths
-set PATH $HOME/.rbenv/bin $PATH
-set PATH $HOME/.rbenv/shims $PATH
-
-# Init rbenv with fish. Source: https://github.com/rbenv/rbenv#basic-git-checkout
+# Only runs if rbenv is installed
 if test -d ~/.rbenv
-    status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source
-    rbenv rehash >/dev/null ^&1
-end
+    set -g RBENV_ROOT $HOME/.rbenv
+    fish_add_path $RBENV_ROOT/bin 2>/dev/null; or true
 
+    # Init rbenv with fish
+    status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source 2>/dev/null; or true
+end
