@@ -22,8 +22,8 @@ brew "hellix"
 brew "rbenv"
 brew "ruby"
 # Python
-# brew "pyenv"
-# brew "pipenv"
+brew "pyenv"
+brew "pipenv"
 brew "yarn"
 # Node
 brew "nvm"

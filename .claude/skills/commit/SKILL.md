@@ -87,7 +87,7 @@ BREAKING CHANGE: API now requires Bearer token
 ## Workflow
 
 1. Stage changes with `git add`
-2. **Send `git status` and `git diff` to Ollama** to generate the commit message description:
+2. Use `git status` and `git diff` to generate the commit message description:
    ```bash
    STATUS=$(git status --short)
    DIFF=$(git diff --cached)
@@ -97,5 +97,4 @@ BREAKING CHANGE: API now requires Bearer token
      \"stream\": false
    }" | jq -r '.message.content'
    ```
-3. Review Ollama's output, adjust if needed, and commit.
-   If Ollama is not available, fall back to writing the message yourself.
+3. Review output, adjust if needed, and commit.

@@ -1,10 +1,9 @@
 # Only runs if rbenv is installed
-if test -d ~/.rbenv
+if command -q rbenv
     set -gx RBENV_ROOT $HOME/.rbenv
-    fish_add_path $RBENV_ROOT/bin 2>/dev/null; or true
 
     # Init rbenv with fish
-    status --is-interactive; and ~/.rbenv/bin/rbenv init - fish | source 2>/dev/null; or true
+    status --is-interactive; and rbenv init - fish | source 2>/dev/null; or true
 end
 
 # Trigger 'rbenv install x.y.z' if .ruby-version exists in the folder

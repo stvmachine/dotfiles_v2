@@ -2,13 +2,13 @@
 # Python and Pyenv setup
 
 # Pyenv configuration - only runs if pyenv is installed
-if test -d ~/.pyenv
-	set -g PYENV_ROOT $HOME/.pyenv
-	fish_add_path $PYENV_ROOT/bin 2>/dev/null; or true
-	
+if command -q pyenv
+	set -l pyenv_bin (command -s pyenv)
+	set -g PYENV_ROOT (pyenv root 2>/dev/null; or echo $HOME/.pyenv)
+
 	# Init pyenv with fish
-	status --is-interactive; and ~/.pyenv/bin/pyenv init - fish | source 2>/dev/null; or true
-	
+	status --is-interactive; and $pyenv_bin init - fish | source 2>/dev/null; or true
+
 	# Prevent pyenv shims from interfering with brew
 	alias brew="env PATH=(string replace (pyenv root)/shims '' \"\$PATH\") brew"
 end
@@ -17,4 +17,3 @@ end
 if command -qs pipenv
 	set -g pipenv_fish_fancy yes 2>/dev/null; or true
 end
-
