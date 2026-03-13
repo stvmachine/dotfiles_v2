@@ -1,51 +1,43 @@
-# NVM setup for Fish shell
-if command -qs brew
-    function nvm
-       bass source (brew --prefix nvm)/nvm.sh --no-use ';' nvm $argv
-    end
+# NVM auto-switching for Fish shell.
+if functions -q nvm
+    set -q nvm_data; or set -gx nvm_data $HOME/.nvm/versions/node
+    set -q nvm_mirror; or set -gx nvm_mirror https://nodejs.org/dist
 
-    # Use default node version
-    if test -d ~/.nvm
-        nvm use default --silent 2>/dev/null
-    end
-
-    # Trigger 'nvm use' if .nvmrc or .node-version exists in the folder
-    function __check_nvm --on-variable PWD --description 'Do nvm stuff'
-      # Check for .nvmrc first, then .node-version
-      set -l version_file ""
-      if test -f .nvmrc
-        set version_file .nvmrc
-      else if test -f .node-version
-        set version_file .node-version
-      end
-
-      if test -n "$version_file"
-        set node_version (nvm version)
-        set nvmrc_node_version (nvm version (cat $version_file))
-
-        if [ $nvmrc_node_version = "N/A" ]
-          nvm install (cat $version_file)
-        else if [ $nvmrc_node_version != $node_version ]
-          nvm use (cat $version_file)
+    function __nvm_sync_path_links --description 'Refresh ~/bin links for apps that expect node on PATH'
+        if not test -d ~/bin
+            mkdir ~/bin
+            fish_add_path ~/bin
         end
 
-        # Testing if ~/bin folder exists
-        if test -d ~/bin
-          echo "Dir ~/bin exists"
-        else 
-          mkdir ~/bin
-          fish_add_path ~/bin
-        end
-        
-        # link node to usr/local/bin for apps that doesn't work well with nvm as xcode
-        rm -f ~/bin/node
-        rm -f ~/bin/npm
-        ln -s "$(which node)" ~/bin/node
-        ln -s "$(which npm)" ~/bin/npm
-      end
+        rm -f ~/bin/node ~/bin/npm
+        ln -s (command -s node) ~/bin/node
+        ln -s (command -s npm) ~/bin/npm
     end
 
-    __check_nvm
+    function __nvm_auto_use --on-variable PWD --description 'Auto-switch Node from .nvmrc or .node-version'
+        set -l version_file
+        for candidate in .nvmrc .node-version
+            set version_file (_nvm_find_up $PWD $candidate)
+            if test -n "$version_file"
+                break
+            end
+        end
+
+        if test -n "$version_file"
+            read -l requested_version < $version_file
+            nvm use $requested_version --silent 2>/dev/null
+            or nvm install $requested_version
+
+            __nvm_sync_path_links
+        else if set -q nvm_default_version
+            if test (nvm current) != "$nvm_default_version"
+                nvm use default --silent
+                __nvm_sync_path_links
+            end
+        end
+    end
+
+    __nvm_auto_use
 end
 
 set -Ux NODE_OPTIONS "--max-old-space-size=4096"
