@@ -1,26 +1,62 @@
 ---
 name: jira
-description: Connect code work to Jira tickets — inbox for gathering full ticket context, read context, update status, link PRs, and auto-detect ticket IDs from branch names.
-allowed-tools: mcp__mcp-atlassian__*, Bash(git *), Bash(curl *), Bash(file *), Bash(ls *), Read
+description: Connect code work to Jira tickets — inbox for gathering full ticket context, read context, update status, link PRs, and auto-detect ticket IDs from branch names. Integrates with beads for persistent task tracking and worktale for session narration. Stores ticket archives in ~/.medtasker-tickets/.
+allowed-tools: mcp__mcp-atlassian__*, Bash(git *), Bash(curl *), Bash(file *), Bash(ls *), Bash(bd *), Read
 ---
 
 # Jira Integration Skill
 
-Connects code work to Jira tickets using the mcp-atlassian MCP server.
+Connects code work to Jira tickets using the mcp-atlassian MCP server. Integrates with **beads** for persistent task tracking and multi-agent coordination, and **worktale** for session narration.
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         JIRA (Source of Truth)                   │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    BEADS (Persistent Tracker)                    │
+│  - Task status and lifecycle                                     │
+│  - GitHub PR links                                               │
+│  - Asset references (local paths)                                │
+│  - Multi-agent coordination (claim, deps, etc.)                  │
+└─────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────┐    ┌─────────────────────────────┐
+│   ./todo/MT-XXXX/           │    │  ~/.medtasker-tickets/      │
+│   (Working Cache)           │    │  (Archive Storage)          │
+│  - TICKET_DESCRIPTION.md    │    │  - MT-XXXX/                 │
+│  - assets/ (symlinked)      │◄──►│    - TICKET_DESCRIPTION.md  │
+│  - context/                 │    │    - assets/                │
+│  - .state.json              │    │    - context/               │
+└─────────────────────────────┘    └─────────────────────────────┘
+```
+
+**Storage Locations:**
+- **Jira**: Source of truth for ticket content, status, comments
+- **beads**: Persistent task tracker with status, PR links, asset references
+- **`./todo/MT-XXXX/`**: Local working cache (gitignored, human-friendly)
+- **`~/.medtasker-tickets/`**: Centralized archive for resolved tickets
 
 ## Capabilities
 
 ### 0. Ticket Inbox (NEW)
-Fetch a Jira ticket with full context and save to organized directory structure in the project's `todo/` folder. This is the entry point for the automation pipeline.
+Fetch a Jira ticket with full context and save to organized directory structure. This is the entry point for the automation pipeline.
 
 Creates:
 - `todo/MT-XXXX/TICKET_DESCRIPTION.md` — Main ticket content with metadata, description, and references
 - `todo/MT-XXXX/assets/` — Downloaded images, documents, and attachments
 - `todo/MT-XXXX/context/` — Fetched Confluence pages, Figma design data, GitHub PR summaries
 - `todo/MT-XXXX/.state.json` — Agent handoff state file for downstream processing
+- **beads task** — Persistent tracking with Jira ticket ID in title
+- **worktale narration** — Session context captured after inbox fetch
 
 See rules/fetch.md for detailed implementation.
 See rules/update.md for re-fetching existing tickets.
+See rules/beads-integration.md for beads task management.
 
 ### 1. Read ticket context
 Fetch ticket details (summary, description, acceptance criteria, status, assignee) to understand what needs to be done. When a ticket exists in `todo/MT-XXXX/` (from inbox workflow), read from there. Otherwise, fetch directly:
@@ -53,15 +89,18 @@ Extract Jira ticket IDs from git branch names automatically. Common patterns:
 6. Parse for Figma links → follow rules/figma-integration.md if links found
 7. Parse for GitHub references → follow rules/github.md if references found
 8. Create .state.json via rules/state-file.md pattern
-9. Display summary of what was fetched and what failed
+9. **Create beads task** via rules/beads-integration.md (track in beads)
+10. **Narrate to worktale**: `worktale note "Fetched Jira ticket <ticket-id> to inbox — <summary>"`
+11. Display summary of what was fetched and what failed
 
 ### When invoked with `inbox update` (`/jira inbox update MT-9548`)
 1. Validate ticket exists in todo/MT-XXXX/
 2. Follow rules/update.md to re-fetch and overwrite all content
+3. Update beads task if exists (sync status)
 
 ### When invoked without arguments (`/jira`)
 1. Detect the current git branch
-2. Extract ticket ID from branch name (pattern: `[A-Z]+-\d+`)
+2. Extract ticket ID from branch name (pattern: `[A-Z][A-Z0-9]+-\d+`)
 3. If found, fetch and display the ticket details
 4. If not found, ask the user for a ticket ID
 
@@ -72,17 +111,26 @@ Extract Jira ticket IDs from git branch names automatically. Common patterns:
 1. Detect ticket ID from current branch
 2. Gather context: recent commits, current PR (if any via `gh pr view`)
 3. Post a comment to the ticket summarizing the work done
-4. Ask user if they want to transition the ticket status
+4. Update beads task with PR link if available
+5. Ask user if they want to transition the ticket status
 
 ### When invoked with `link` (`/jira link`)
 1. Detect ticket ID from current branch
 2. Find the current PR via `gh pr view --json url`
 3. Add the PR URL as a comment on the Jira ticket
-4. Format: `PR: <url> — <pr title>`
+4. Update beads task with PR link
+5. Format: `PR: <url> — <pr title>`
 
 ### When invoked with `start` (`/jira start MT-9548`)
 1. Transition the ticket to "In Progress"
-2. Display the ticket details for context
+2. Claim the beads task (if exists)
+3. Display the ticket details for context
+
+### When invoked with `archive` (`/jira archive MT-9548`)
+1. Move ticket from `./todo/MT-9548/` to `~/.medtasker-tickets/MT-9548/`
+2. Update beads task status to "archived"
+3. Keep assets and context intact in archive location
+4. Remove from local working cache
 
 ## Extracting Ticket ID
 
@@ -100,9 +148,10 @@ When displaying any ticket, ALWAYS fetch and show the complete context automatic
 ### Attachments & Images
 1. Fetch the ticket with `expand=renderedFields` to get attachment references
 2. Download ALL attachments to the project's `./todo/MT-XXXX/assets/` folder (changed from flat `./todo/MT-XXXX_filename`) using curl with `-L` flag (Jira redirects)
-3. Display image attachments inline using the Read tool (supports PNG, JPG, etc.)
-4. List non-image attachments with their filenames and sizes
-5. Reference the local paths in the TICKET_DESCRIPTION.md file
+3. **Deduplication:** Check the centralized attachment index (`~/.medtasker-tickets/.index/confluence-index.json`) before downloading Confluence content. Images and other assets are stored per-ticket.
+4. Display image attachments inline using the Read tool (supports PNG, JPG, etc.)
+5. List non-image attachments with their filenames and sizes
+6. Reference the local paths in the TICKET_DESCRIPTION.md file
 
 Authentication for downloads:
 ```bash
@@ -113,6 +162,12 @@ Read credentials from `~/.claude/mcp.json`:
 ```bash
 python3 -c "import json; c=json.load(open('$HOME/.claude/mcp.json'))['mcpServers']['mcp-atlassian']['env']; print(c['JIRA_USERNAME']); print(c['JIRA_API_TOKEN'])"
 ```
+
+**Attachment Deduplication:**
+- **Confluence only**: `~/.medtasker-tickets/.index/confluence-index.json` (cross-project)
+- Images and other assets: stored per-ticket in `~/.medtasker-tickets/MT-XXXX/assets/`
+- Key: Confluence page URL
+- Scope: Confluence pages are deduplicated across all tickets
 
 ### Issue Links
 Show all linked issues (blocks, is blocked by, relates to, etc.) with their key, summary, and status.
@@ -136,6 +191,7 @@ List all subtasks with key, summary, and status.
 | **Priority** | ... |
 | **Sprint** | ... |
 | **Labels** | ... |
+| **Beads** | bd-xxxxx (if tracked) |
 
 **Description:**
 <rendered description text>
@@ -206,6 +262,7 @@ Always confirm with the user before transitioning status.
 - If MCP server is not connected, tell the user to fill in credentials in `~/.claude/mcp.json`
 - If ticket not found, suggest checking the ticket ID
 - If branch has no ticket ID pattern, ask the user to provide one
+- If beads is not initialized, run `bd init --stealth` in the project
 
 ## Rules
 
@@ -217,3 +274,4 @@ Detailed implementation patterns are in the `rules/` subdirectory:
 - `rules/update.md` — Re-fetch and overwrite existing tickets
 - `rules/confluence.md` — Confluence page extraction and saving
 - `rules/github.md` — GitHub PR/repo reference analysis
+- `rules/beads-integration.md` — Beads task creation, updates, and multi-agent coordination

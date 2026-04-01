@@ -1,20 +1,21 @@
 ---
 name: ship-to-qa
-description: Ship completed work to QA — create GitHub PR, commit staged changes, transition Jira ticket to QA, link the PR on the ticket, and update beads task. Use when the user says "ship", "ship to QA", "send to QA", "create PR and update Jira", or wants to finalize a feature branch for review. Combines commit, GitHub PR, Jira, and beads workflows into a single command.
+description: Ship completed work to QA — create GitHub PR, commit staged changes, transition Jira ticket to QA, link the PR on the ticket, update beads task, and narrate to worktale. Use when the user says "ship", "ship to QA", "send to QA", "create PR and update Jira", or wants to finalize a feature branch for review. Combines commit, GitHub PR, Jira, beads, and worktale workflows into a single command.
 allowed-tools: Bash(git *), Bash(gh *), Bash(curl *), Bash(python3 *), Bash(bd *), mcp__mcp-atlassian__*, mcp__github__*
 ---
 
 # Ship to QA
 
-Single command to ship a feature branch: commit, create PR, transition Jira to QA, and link the PR.
+Single command to ship a feature branch: commit, create PR, transition Jira to QA, link the PR, and narrate to worktale.
 
 ## Dependencies
 
-This skill orchestrates four other skills — invoke them, don't duplicate their logic:
+This skill orchestrates five other skills — invoke them, don't duplicate their logic:
 - **`/commit`** — used in Step 3 for creating properly formatted commits
 - **`/jira`** — used in Steps 5-6 for Jira transitions and linking (follow its patterns for MCP usage, comment formatting, and credential extraction)
 - **`/jira-markup`** — used in Steps 5-6 for Jira transitions and linking (follow its patterns for MCP usage, comment formatting, and credential extraction)
 - **`beads`** — used throughout for persistent task tracking and multi-agent coordination
+- **`worktale`** — used throughout for session narration and capturing work context
 ## Pipeline Mode
 
 When invoked from the work executor's `rules/integration.md` (pipeline mode), the following overrides apply. Per D-02, this mode is for agent-to-agent invocation where no human is available to answer prompts.
@@ -231,7 +232,19 @@ if [ -d "$LOCAL_DIR" ]; then
 fi
 ```
 
-### Step 8: Summary
+### Step 8: Narrate to Worktale
+
+After successful completion, narrate the outcome to worktale:
+```bash
+worktale note "Shipped <TICKET-ID> to QA — PR created, Jira transitioned, beads updated"
+```
+
+If any step failed, narrate the failure:
+```bash
+worktale note "QA handoff for <TICKET-ID> blocked — <failure reason>"
+```
+
+### Step 9: Summary
 
 Display a summary:
 ```
@@ -241,6 +254,7 @@ Shipped <TICKET-ID> to QA:
   Comment: linked PR on ticket
   Beads: updated task <BEADS_ID> with PR link
   Archive: moved to ~/.medtasker-tickets/<TICKET-ID>/
+  Worktale: narration complete
 ```
 
 ## Enriching Existing PR Descriptions

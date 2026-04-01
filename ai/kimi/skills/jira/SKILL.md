@@ -1,12 +1,12 @@
 ---
 name: jira
-description: Connect code work to Jira tickets — inbox for gathering full ticket context, read context, update status, link PRs, and auto-detect ticket IDs from branch names. Integrates with beads for persistent task tracking and stores ticket archives in ~/.medtasker-tickets/.
+description: Connect code work to Jira tickets — inbox for gathering full ticket context, read context, update status, link PRs, and auto-detect ticket IDs from branch names. Integrates with beads for persistent task tracking and worktale for session narration. Stores ticket archives in ~/.medtasker-tickets/.
 allowed-tools: mcp__mcp-atlassian__*, Bash(git *), Bash(curl *), Bash(file *), Bash(ls *), Bash(bd *), Read
 ---
 
 # Jira Integration Skill
 
-Connects code work to Jira tickets using the mcp-atlassian MCP server. Integrates with **beads** for persistent task tracking and multi-agent coordination.
+Connects code work to Jira tickets using the mcp-atlassian MCP server. Integrates with **beads** for persistent task tracking and multi-agent coordination, and **worktale** for session narration.
 
 ## Architecture Overview
 
@@ -52,6 +52,7 @@ Creates:
 - `todo/MT-XXXX/context/` — Fetched Confluence pages, Figma design data, GitHub PR summaries
 - `todo/MT-XXXX/.state.json` — Agent handoff state file for downstream processing
 - **beads task** — Persistent tracking with Jira ticket ID in title
+- **worktale narration** — Session context captured after inbox fetch
 
 See rules/fetch.md for detailed implementation.
 See rules/update.md for re-fetching existing tickets.
@@ -89,7 +90,8 @@ Extract Jira ticket IDs from git branch names automatically. Common patterns:
 7. Parse for GitHub references → follow rules/github.md if references found
 8. Create .state.json via rules/state-file.md pattern
 9. **Create beads task** via rules/beads-integration.md (track in beads)
-10. Display summary of what was fetched and what failed
+10. **Narrate to worktale**: `worktale note "Fetched Jira ticket <ticket-id> to inbox — <summary>"`
+11. Display summary of what was fetched and what failed
 
 ### When invoked with `inbox update` (`/jira inbox update MT-9548`)
 1. Validate ticket exists in todo/MT-XXXX/

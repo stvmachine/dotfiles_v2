@@ -1,20 +1,21 @@
 ---
 name: ship-to-qa
-description: Ship completed work to QA — create GitHub PR, commit staged changes, transition Jira ticket to QA, and link the PR on the ticket. Use when the user says "ship", "ship to QA", "send to QA", "create PR and update Jira", or wants to finalize a feature branch for review. Combines commit, GitHub PR, and Jira workflows into a single command.
-allowed-tools: Bash(git *), Bash(gh *), Bash(curl *), Bash(python3 *), mcp__mcp-atlassian__*, mcp__github__*
+description: Ship completed work to QA — create GitHub PR, commit staged changes, transition Jira ticket to QA, link the PR on the ticket, update beads task, and narrate to worktale. Use when the user says "ship", "ship to QA", "send to QA", "create PR and update Jira", or wants to finalize a feature branch for review. Combines commit, GitHub PR, Jira, beads, and worktale workflows into a single command.
+allowed-tools: Bash(git *), Bash(gh *), Bash(curl *), Bash(python3 *), Bash(bd *), mcp__mcp-atlassian__*, mcp__github__*
 ---
 
 # Ship to QA
 
-Single command to ship a feature branch: commit, create PR, transition Jira to QA, and link the PR.
+Single command to ship a feature branch: commit, create PR, transition Jira to QA, link the PR, and narrate to worktale.
 
 ## Dependencies
 
-This skill orchestrates three other skills — invoke them, don't duplicate their logic:
+This skill orchestrates five other skills — invoke them, don't duplicate their logic:
 - **`/commit`** — used in Step 3 for creating properly formatted commits
 - **`/jira`** — used in Steps 5-6 for Jira transitions and linking (follow its patterns for MCP usage, comment formatting, and credential extraction)
 - **`/jira-markup`** — used in Steps 5-6 for Jira transitions and linking (follow its patterns for MCP usage, comment formatting, and credential extraction)
-- 
+- **`beads`** — used throughout for persistent task tracking and multi-agent coordination
+- **`worktale`** — used throughout for session narration and capturing work context
 ## Pipeline Mode
 
 When invoked from the work executor's `rules/integration.md` (pipeline mode), the following overrides apply. Per D-02, this mode is for agent-to-agent invocation where no human is available to answer prompts.
@@ -170,14 +171,80 @@ Use the `/jira` skill's transition workflow:
 3. If ambiguous, show options and ask the user
 4. Execute the transition
 
-### Step 6: Link PR on Jira Ticket
+### Step 6: Link PR on Jira Ticket and Update Beads
 
 Use the `/jira-markup` and `/jira` skill's link/comment workflow to post the PR link on the ticket. Follow its comment formatting rules (Jira wiki markup via curl, NOT the MCP comment tool). The comment should include:
 - PR title and URL
 - Branch name
 - Base branch
 
-### Step 7: Summary
+**Also update beads task:**
+1. Find beads task by searching for `[$TICKET_ID]` in title
+2. Update task body with PR link
+3. Update status to "in_review"
+
+```bash
+# Find beads task for this ticket
+BEADS_ID=$(bd list --json | python3 -c "
+import json, sys, re
+tasks = json.load(sys.stdin)
+for task in tasks:
+    if re.search(r'\[$TICKET_ID\]', task.get('title', '')):
+        print(task['id'])
+        break
+")
+
+if [ -n "$BEADS_ID" ]; then
+    # Append PR link to task body
+    bd update "$BEADS_ID" --body-append "
+
+## GitHub PRs
+- [$PR_TITLE]($PR_URL) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+"
+
+    # Update status
+    bd update "$BEADS_ID" --status "in_review"
+
+    echo "Updated beads task: $BEADS_ID"
+fi
+```
+
+### Step 7: Archive Ticket (Optional)
+
+After successful ship-to-qa, optionally archive the ticket to centralized storage:
+
+```bash
+# Move from local working cache to centralized archive
+LOCAL_DIR="./todo/$TICKET_ID"
+CENTRAL_DIR="$HOME/.medtasker-tickets/$TICKET_ID"
+
+if [ -d "$LOCAL_DIR" ]; then
+    # Ensure central directory exists
+    mkdir -p "$CENTRAL_DIR"
+
+    # Copy all content to central (if not already there)
+    cp -r "$LOCAL_DIR/"* "$CENTRAL_DIR/" 2>/dev/null || true
+
+    # Remove local directory
+    rm -rf "$LOCAL_DIR"
+
+    echo "Archived $TICKET_ID to ~/.medtasker-tickets/"
+fi
+```
+
+### Step 8: Narrate to Worktale
+
+After successful completion, narrate the outcome to worktale:
+```bash
+worktale note "Shipped <TICKET-ID> to QA — PR created, Jira transitioned, beads updated"
+```
+
+If any step failed, narrate the failure:
+```bash
+worktale note "QA handoff for <TICKET-ID> blocked — <failure reason>"
+```
+
+### Step 9: Summary
 
 Display a summary:
 ```
@@ -185,6 +252,9 @@ Shipped <TICKET-ID> to QA:
   PR: <PR URL>
   Jira: transitioned to <new status>
   Comment: linked PR on ticket
+  Beads: updated task <BEADS_ID> with PR link
+  Archive: moved to ~/.medtasker-tickets/<TICKET-ID>/
+  Worktale: narration complete
 ```
 
 ## Enriching Existing PR Descriptions
@@ -223,3 +293,5 @@ export GH_TOKEN=<fresh_token>
 - If PR creation fails (e.g. no upstream): push first, then retry
 - If in pipeline mode and transition is ambiguous: FAIL with descriptive error (do not prompt)
 - If in pipeline mode and PR creation fails: FAIL with error (do not retry interactively)
+- If beads is not initialized: warn but continue (beads integration is optional)
+- If beads task not found: warn but continue (ticket may not have been fetched via /jira inbox)
