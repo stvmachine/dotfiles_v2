@@ -1,0 +1,204 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                   GSD FOR KIMI - INSTALLATION SUMMARY                      ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+📦 WHAT WAS CREATED
+═══════════════════════════════════════════════════════════════════════════
+
+~/.kimi/skills/gsd-kimi/
+├── SKILL.md                    # Kimi skill definition
+├── README.md                   # Full documentation
+├── QUICKSTART.md               # Quick start guide
+├── INTEGRATION.md              # Integration with Jira orchestrator
+├── gsd.py                      # Main CLI (Python)
+├── gsd-agent.yaml              # Kimi agent specification
+├── setup.py                    # Python package setup
+├── install.sh                  # Installation script
+├── SUMMARY.txt                 # This file
+├── agents/                     # Agent specifications
+│   ├── research.md
+│   ├── planning.md
+│   ├── execution.md
+│   └── gsd-executor.md
+├── templates/                  # Document templates
+│   ├── PROJECT.md
+│   ├── REQUIREMENTS.md
+│   ├── ROADMAP.md
+│   ├── CONTEXT.md
+│   ├── PLAN.md
+│   └── SUMMARY.md
+└── scripts/
+    └── jira-gsd-orchestrator.sh
+
+
+🔧 INSTALLATION
+═══════════════════════════════════════════════════════════════════════════
+
+cd ~/.kimi/skills/gsd-kimi
+./install.sh
+
+Or manually:
+    pip install -e ~/.kimi/skills/gsd-kimi
+
+
+🚀 QUICK START
+═══════════════════════════════════════════════════════════════════════════
+
+1. Initialize GSD project:
+    cd your-project
+    gsd init
+
+2. Create milestone:
+    gsd new-milestone
+
+3. Work through phases:
+    gsd discuss-phase 1    # Create context
+    gsd plan-phase 1       # Create plans
+
+4. Execute with kimi:
+    kimi --agent-file ~/.kimi/skills/gsd-kimi/gsd-agent.yaml \
+         --yolo \
+         --prompt "Execute plans in .planning/phase-1/"
+
+
+🔗 JIRA INTEGRATION
+═══════════════════════════════════════════════════════════════════════════
+
+With Jira-Kimi Orchestrator:
+    # In Claude:
+    /jko:start MT-1234
+    /jko:execute MT-1234
+    /jko:review MT-1234
+
+Standalone:
+    ~/.kimi/skills/gsd-kimi/scripts/jira-gsd-orchestrator.sh MT-1234
+
+
+📁 PROJECT STRUCTURE
+═══════════════════════════════════════════════════════════════════════════
+
+.planning/
+├── config.json
+├── PROJECT.md
+├── REQUIREMENTS.md
+├── ROADMAP.md
+├── STATE.md
+└── phase-1-name/
+    ├── 1-CONTEXT.md
+    ├── 1-RESEARCH.md
+    ├── 1-1-PLAN.md        ← XML format for kimi
+    └── 1-SUMMARY.md
+
+
+📝 PLAN FORMAT
+═══════════════════════════════════════════════════════════════════════════
+
+<?xml version="1.0"?>
+<plan>
+  <metadata>
+    <phase>1</phase>
+    <plan>1</plan>
+    <name>Implementation</name>
+  </metadata>
+  
+  <tasks>
+    <task type="auto" priority="1">
+      <id>1-1-001</id>
+      <name>Create component</name>
+      <files>src/Component.tsx</files>
+      <action>Implementation instructions...</action>
+      <verify>Verification steps...</verify>
+      <done>Definition of done</done>
+    </task>
+  </tasks>
+</plan>
+
+
+⚡ COMMANDS
+═══════════════════════════════════════════════════════════════════════════
+
+CLI Commands:
+    gsd init                    Initialize GSD
+    gsd status                  Show status
+    gsd new-milestone           Create milestone
+    gsd discuss-phase N         Create phase context
+    gsd plan-phase N            Create phase plans
+
+Kimi (with agent file):
+    /gsd:init                   Initialize
+    /gsd:status                 Show status
+    /gsd:new-milestone          Create milestone
+    /gsd:discuss-phase N        Discuss phase
+    /gsd:plan-phase N           Plan phase
+    /gsd:execute-phase N        Execute phase
+
+
+📚 DOCUMENTATION
+═══════════════════════════════════════════════════════════════════════════
+
+- Full docs:      ~/.kimi/skills/gsd-kimi/README.md
+- Quick start:    ~/.kimi/skills/gsd-kimi/QUICKSTART.md
+- Integration:    ~/.kimi/skills/gsd-kimi/INTEGRATION.md
+- Templates:      ~/.kimi/skills/gsd-kimi/templates/
+- Agents:         ~/.kimi/skills/gsd-kimi/agents/
+
+
+🔄 COMPARISON WITH CLAUDE GSD
+═══════════════════════════════════════════════════════════════════════════
+
+Feature                 Claude GSD          GSD-Kimi
+─────────────────────────────────────────────────────────────────────────
+Setup                   npx install         pip install
+Planning                /gsd:plan-phase     gsd plan-phase
+Execution               Sub-agents          Kimi agent
+Parallel execution      Yes                 Limited
+Webhooks                Yes                 No
+Sub-agent spawning      Automatic           Manual
+Complexity              Higher              Lower
+Standalone              No (needs Claude)   Yes
+
+
+✅ NEXT STEPS
+═══════════════════════════════════════════════════════════════════════════
+
+1. Run installation:
+    cd ~/.kimi/skills/gsd-kimi && ./install.sh
+
+2. Test with a sample project:
+    mkdir test-project && cd test-project
+    gsd init
+    gsd new-milestone
+
+3. Try Jira integration (optional):
+    /jko:start MT-XXXX (in Claude)
+    # or
+    jira-gsd-orchestrator.sh MT-XXXX
+
+4. Read documentation:
+    cat ~/.kimi/skills/gsd-kimi/QUICKSTART.md
+
+
+🐛 TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════
+
+Issue: "gsd: command not found"
+Fix:   Use full path: python3 ~/.kimi/skills/gsd-kimi/gsd.py
+       Or: pip install -e ~/.kimi/skills/gsd-kimi
+
+Issue: "Phase not found"
+Fix:   Run gsd discuss-phase N first
+
+Issue: Plans not executing
+Fix:   Check XML format in PLAN.md files
+
+Issue: kimi doesn't recognize agent
+Fix:   Use full path to gsd-agent.yaml
+
+
+📞 SUPPORT
+═══════════════════════════════════════════════════════════════════════════
+
+- Original GSD:   https://github.com/gsd-build/get-shit-done
+- Kimi CLI:       https://github.com/moonshot-ai/kimi-cli
+- Claude skill:   ~/.claude/skills/jira-kimi-orchestrator/
+
