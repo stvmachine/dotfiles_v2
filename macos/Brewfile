@@ -64,9 +64,12 @@ cask "chromium" # for taiko
 cask "figma"
 
 ## DB managers
-# cask "dbeaver-community"
+cask "dbeaver-community"  #sqlite
 # cask "mongodb-compass"
 
 ## API development
 # cask "insomnia"
 # cask "postman"
+
+## AI Development
+brew "dolt" # SQL database for beads
